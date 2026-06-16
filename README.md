@@ -1,5 +1,5 @@
-# Tekki 🔧
-> La plateforme qui connecte clients et techniciens à Douala
+# Flowdar
+> Détecte, alerte et guide — la plateforme citoyenne contre les inondations à Douala
 
 ---
 
@@ -7,26 +7,16 @@
 
 | Rubrique | Détail |
 |---|---|
-| **Titre du projet** | **Tekki** — La plateforme qui connecte clients et techniciens à Douala |
-| **Le problème** | Trouver un électricien, un plombier ou un réparateur fiable à Douala repose entièrement sur le bouche-à-oreille. Un habitant dont la climatisation tombe en panne un vendredi soir doit appeler cinq personnes avant de trouver quelqu'un de disponible — sans garantie de sérieux. Aucune app locale ne centralise ces profils avec avis et contacts vérifiés. |
-| **Cible (utilisateurs)** | **Clients :** habitants de Douala ayant un besoin ponctuel de dépannage ou réparation à domicile. **Techniciens :** électriciens, plombiers, réparateurs télé/PC/téléphone, techniciens climatisation, menuisiers cherchant à développer leur clientèle. |
-| **Proposition de valeur** | Tekki permet de trouver en moins de 2 minutes un technicien disponible dans son quartier, consulter ses avis clients, et le contacter directement sur WhatsApp — sans intermédiaire, sans commission. |
-| **Fonctionnalités MVP** | 1. Recherche de techniciens par spécialité et par quartier. 2. Profil technicien (photo, nom, spécialité, quartier, tarif indicatif, note moyenne). 3. Contact direct WhatsApp en un clic depuis le profil. 4. Système d'avis et de notes clients (1 à 5 étoiles + commentaire). 5. Formulaire d'inscription pour les techniciens. |
-| **Fonctionnalités bonus** | Géolocalisation automatique pour suggérer les techniciens les plus proches. Notifications de disponibilité. Prise de rendez-vous depuis l'app. Sauvegarde de techniciens en favoris. |
-| **Écrans / pages** | 1. Accueil (barre de recherche + catégories de spécialités). 2. Liste des techniciens (résultats filtrés). 3. Profil technicien (détail + bouton WhatsApp + avis). 4. Formulaire d'inscription technicien. 5. Formulaire d'avis client. 6. Page connexion / inscription (Auth). |
-| **Données manipulées** | **Technicien :** id, nom, photo (URL), spécialité, quartier, téléphone, tarif (FCFA), disponible (boolean), note_moyenne, nb_avis, date_inscription. **Avis :** id, technicien_id, auteur_nom, note (1-5), commentaire, date. **Utilisateur :** uid, nom, email, rôle (client ou technicien). |
-| **Stack technique** | Angular 21+ (standalone components) — TailwindCSS (styles) — Firebase Auth (authentification) — Cloud Firestore (base de données) — Firebase Storage (photos de profil) — Firebase Hosting (déploiement). |
-| **Contrainte connexion** | Les profils récemment consultés sont mis en cache localStorage pour un accès hors ligne. Les données textuelles (nom, quartier, téléphone) sont chargées en priorité avant les images. La persistance hors ligne Firestore est activée (`enableIndexedDbPersistence`). Les photos sont compressées avant upload. |
-
----
-
-## Branches Git
-
-| Branche | Rôle |
-|---|---|
-| `main` | Version stable — ne pas modifier directement |
-| `apprenant` | Branche de travail quotidienne |
-| `formateur` | Réservée aux retours du formateur |
+| **Titre du projet** | **Flowdar** — Détection automatique des risques d'inondation et guidage citoyen à Douala en temps réel |
+| **Le problème** | Près de 48% de la ville de Douala est exposée aux risques d'inondation. Entre 2024 et 2025, plus d'un million de Camerounais ont été affectés. Quand il pleut fort, personne ne sait en temps réel quelles rues sont praticables : les gens partent travailler, se retrouvent bloqués dans 80cm d'eau, parfois en danger. Les prévisions officielles de l'ONACC sont régionales et décadaires (tous les 10 jours) — elles ne disent pas si la rue Joss est sous l'eau ce matin. Les groupes WhatsApp et Facebook informent, mais trop tard, sans géolocalisation ni structure. |
+| **Cible (utilisateurs)** | Résidents de Douala qui se déplacent pendant ou après une forte pluie : conducteurs, piétons, commerçants, parents d'élèves, livreurs. |
+| **Proposition de valeur** | Flowdar détecte automatiquement les risques d'inondation via la météo, les citoyens confirment sur le terrain, et l'app suggère en temps réel les itinéraires sûrs pour éviter les zones à risque. |
+| **Fonctionnalités MVP** | 1. Détection automatique des risques via OpenWeatherMap (pluies intenses → alerte générée sur les zones historiquement inondables de Douala). 2. Carte interactive Google Maps des alertes actives avec niveau de risque (léger / moyen / dangereux). 3. Confirmation citoyenne d'une alerte existante ("c'est encore là") ou signalement manuel d'une nouvelle zone. 4. Suggestion d'itinéraire sûr : l'app affiche un chemin qui évite les zones alertées. 5. Badge "résolu" automatique après 3h sans confirmation, ou clôture manuelle par un citoyen. |
+| **Fonctionnalités bonus** | Historique des quartiers les plus touchés (carte de chaleur). Notifications push lors d'une alerte dans son quartier. Filtre par quartier pour ne voir que sa zone. Photo jointe à un signalement citoyen. |
+| **Écrans / pages** | 1. Accueil — carte Google Maps avec alertes actives en temps réel. 2. Détail alerte — niveau, heure, nombre de confirmations, bouton "Confirmer / Résolu". 3. Signalement manuel — formulaire (quartier, niveau, description). 4. Itinéraire sûr — saisie destination, affichage du chemin évitant les zones alertées. 5. Historique — liste des alertes passées par quartier. 6. Connexion / Inscription — Firebase Auth. |
+| **Données manipulées** | **Alerte :** id, source (auto / citoyen), quartier, coordonnées GPS (lat/lng), niveau (léger / moyen / dangereux), heure_debut, nb_confirmations, statut (actif / résolu), photo_url (optionnel). **Utilisateur :** uid, nom, email, quartier_domicile. **Zone à risque :** id, nom_quartier, coordonnées_polygone, historique_inondations (boolean). |
+| **Stack technique** | Angular 21+ (standalone components) — TailwindCSS (styles) — Firebase Auth (authentification) — Cloud Firestore (alertes temps réel) — Firebase Storage (photos signalements) — Firebase Hosting (déploiement) — OpenWeatherMap API (détection météo automatique) — Google Maps JavaScript API (carte interactive + itinéraires). |
+| **Contrainte connexion** | Les dernières alertes actives sont mises en cache localStorage pour consultation hors ligne. Les nouveaux signalements citoyens sont mis en file d'attente et envoyés à la reconnexion (Firestore offline persistence activée). L'app reste consultable sans connexion avec les données de la dernière session. Les données textuelles sont prioritaires sur les images. |
 
 ---
 
