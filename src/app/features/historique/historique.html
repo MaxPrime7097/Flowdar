@@ -1,0 +1,70 @@
+<app-top-app-bar titre="Historique" />
+
+<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+  <section>
+    <label class="text-label mb-2 block uppercase text-text-secondary">Localisation</label>
+    <div class="relative">
+      <select
+        class="w-full appearance-none rounded-button border border-border bg-surface p-3 pr-10 text-[15px]"
+        aria-label="Localisation"
+        [value]="quartierSelectionne()"
+        (change)="selectionnerQuartier($any($event.target).value)"
+      >
+        @for (zone of zones(); track zone.id) {
+          <option [value]="zone.nom_quartier">{{ zone.nom_quartier }}</option>
+        }
+      </select>
+      <app-icon
+        nom="chevron-bas"
+        [taille]="18"
+        class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary"
+      />
+    </div>
+  </section>
+
+  @if (quartierSelectionne() && !chargement()) {
+    <section class="relative overflow-hidden rounded-card bg-primary p-5 text-white">
+      <div class="relative z-10">
+        <div class="mb-2 flex items-center gap-2">
+          <app-icon nom="tendance" [taille]="20" />
+          <span class="text-title text-white">{{ quartierSelectionne() }}</span>
+        </div>
+        <p class="mb-4 text-[13px] text-white/90">Resume des activites d'inondation pour ce quartier.</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-lg bg-white/10 p-3">
+            <span class="text-label block uppercase text-white/80">Alertes</span>
+            <span class="text-display text-white">{{ alertesPassees().length }}</span>
+          </div>
+          <div class="rounded-lg bg-white/10 p-3">
+            <span class="text-label block uppercase text-white/80">Score moyen</span>
+            <span class="text-display" [class]="couleurScoreMoyen()">{{ scoreMoyen() }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
+  <section class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-title">Historique des alertes</h2>
+      <span class="text-label text-text-secondary">Derniers 30 jours</span>
+    </div>
+
+    @if (chargement()) {
+      <div class="space-y-2">
+        <app-skeleton [hauteur]="88" />
+        <app-skeleton [hauteur]="88" />
+      </div>
+    } @else if (alertesPassees().length === 0) {
+      <app-empty-state titre="Aucun historique" description="Aucune alerte passee n'a ete enregistree pour ce quartier." />
+    } @else {
+      <div class="space-y-3">
+        @for (alerte of alertesPassees(); track alerte.id) {
+          <app-alerte-card [alerte]="alerte" />
+        }
+      </div>
+    }
+  </section>
+</div>
+
+<app-navbar />

@@ -1,0 +1,84 @@
+<div [formGroup]="group()" class="space-y-5">
+  <div class="flex gap-2">
+    <label class="flex-1">
+      <input type="radio" formControlName="modeZone" value="connue" class="sr-only peer" />
+      <span
+        class="block cursor-pointer rounded-button border border-border px-3 py-2 text-center text-[15px] peer-checked:border-primary peer-checked:bg-primary-light peer-checked:text-primary"
+      >
+        Quartier connu
+      </span>
+    </label>
+    <label class="flex-1">
+      <input type="radio" formControlName="modeZone" value="inconnue" class="sr-only peer" />
+      <span
+        class="block cursor-pointer rounded-button border border-border px-3 py-2 text-center text-[15px] peer-checked:border-primary peer-checked:bg-primary-light peer-checked:text-primary"
+      >
+        Zone non repertoriee
+      </span>
+    </label>
+  </div>
+
+  @if (group().value.modeZone === 'connue') {
+    <div>
+      <label class="text-label mb-1 block uppercase text-text-secondary">Quartier</label>
+      <div class="relative">
+        <select
+          formControlName="zoneId"
+          aria-label="Quartier"
+          class="w-full appearance-none rounded-button border border-border p-3 pr-10 text-[15px]"
+        >
+          <option [value]="null" disabled>Choisir un quartier</option>
+          @for (zone of zones(); track zone.id) {
+            <option [value]="zone.id">{{ zone.nom_quartier }}</option>
+          }
+        </select>
+        <app-icon
+          nom="chevron-bas"
+          [taille]="18"
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary"
+        />
+      </div>
+    </div>
+  } @else {
+    <div class="rounded-button border border-border p-3">
+      @if (positionPrete()) {
+        <p class="flex items-center gap-2 text-[13px] font-medium text-success">
+          <app-icon nom="check" [taille]="16" />
+          Position GPS enregistree.
+        </p>
+      } @else {
+        <button
+          type="button"
+          (click)="demanderPosition.emit()"
+          class="flex w-full items-center justify-center gap-2 rounded-button bg-primary-light py-2.5 text-[15px] font-semibold text-primary"
+        >
+          <app-icon nom="cibler" [taille]="18" />
+          Utiliser ma position actuelle
+        </button>
+      }
+    </div>
+  }
+
+  <div>
+    <label class="text-label mb-2 block uppercase text-text-secondary">Niveau de danger</label>
+    <div class="space-y-3">
+      @for (niveau of niveaux; track niveau.valeur) {
+        <label class="block cursor-pointer">
+          <input type="radio" formControlName="niveau" [value]="niveau.valeur" class="peer sr-only" />
+          <span
+            class="flex items-center justify-between gap-4 rounded-card border border-border bg-surface p-4 shadow-sm transition-all peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary"
+          >
+            <span class="flex items-center gap-4">
+              <span class="h-12 w-3 shrink-0 rounded-full" [class]="niveau.fond"></span>
+              <span class="text-left">
+                <span class="text-title block">{{ niveau.label }}</span>
+                <span class="block text-[13px] text-text-secondary">{{ niveau.description }}</span>
+              </span>
+            </span>
+            <app-icon [nom]="niveau.icone" [taille]="22" [class]="niveau.texte" />
+          </span>
+        </label>
+      }
+    </div>
+  </div>
+</div>

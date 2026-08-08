@@ -1,0 +1,18 @@
+@if (taille() === 'detail') {
+  <div
+    class="flex flex-col items-center justify-center gap-1 rounded-card px-8 py-6 text-white shadow-lg"
+    [class]="couleurFond()"
+  >
+    <span class="text-status">{{ score() }}<span class="text-2xl opacity-80">/100</span></span>
+    @if (labelNiveau()) {
+      <span class="text-title tracking-wide">{{ labelNiveau() }}</span>
+    }
+  </div>
+} @else {
+  <span
+    class="inline-flex items-center justify-center rounded-lg px-2 py-1 text-xs font-bold text-white shadow"
+    [class]="couleurFond()"
+  >
+    {{ score() }}
+  </span>
+}

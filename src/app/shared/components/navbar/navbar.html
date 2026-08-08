@@ -1,0 +1,13 @@
+<nav class="fixed inset-x-0 bottom-0 z-10 flex h-16 items-center gap-1 border-t border-border bg-surface px-2 pb-[env(safe-area-inset-bottom)]">
+  @for (onglet of onglets; track onglet.route) {
+    <a
+      [routerLink]="onglet.route"
+      routerLinkActive="bg-primary-light text-primary"
+      [routerLinkActiveOptions]="{ exact: onglet.exact }"
+      class="flex flex-1 flex-col items-center justify-center gap-0.5 rounded-full py-1.5 text-text-muted transition-colors"
+    >
+      <app-icon [nom]="onglet.icone" [taille]="22" />
+      <span class="text-[11px] font-semibold">{{ onglet.label }}</span>
+    </a>
+  }
+</nav>

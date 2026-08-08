@@ -1,0 +1,80 @@
+<app-top-app-bar titre="Guide de prevention" />
+
+<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+  <button
+    type="button"
+    (click)="sosOuvert.set(true)"
+    class="flex w-full items-center gap-3 rounded-card bg-danger p-4 text-left text-white"
+  >
+    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20">
+      <app-icon nom="sos" [taille]="22" />
+    </span>
+    <span class="flex-1">
+      <span class="text-title block text-white">Urgence en cours ?</span>
+      <span class="block text-[13px] text-white/90">Appelez les secours immediatement</span>
+    </span>
+    <app-icon nom="chevron-droite" [taille]="20" />
+  </button>
+
+  @for (section of sections; track section.id) {
+    <section class="space-y-3">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white" [class]="section.couleur">
+          <app-icon [nom]="section.icone" [taille]="20" />
+        </span>
+        <div>
+          <h2 class="text-title">{{ section.titre }}</h2>
+          <p class="text-[13px] text-text-secondary">{{ section.sousTitre }}</p>
+        </div>
+      </div>
+
+      <ul class="space-y-2">
+        @for (consigne of section.consignes; track consigne.texte) {
+          <li
+            class="flex items-start gap-3 rounded-card border p-3"
+            [class]="consigne.critique ? 'border-danger/30 bg-danger-light' : 'border-border bg-surface'"
+          >
+            @if (consigne.critique) {
+              <app-icon nom="danger" [taille]="18" class="mt-0.5 shrink-0 text-danger" />
+            } @else {
+              <app-icon nom="check" [taille]="18" class="mt-0.5 shrink-0 text-success" />
+            }
+            <span class="text-[15px]" [class]="consigne.critique ? 'font-medium text-danger' : 'text-text-primary'">
+              {{ consigne.texte }}
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  <section class="space-y-3">
+    <h2 class="text-title">Numeros utiles</h2>
+    <div class="overflow-hidden rounded-card border border-border">
+      @for (service of services; track service.numero) {
+        <a
+          [href]="'tel:' + service.numero"
+          class="flex items-center gap-3 border-b border-border bg-surface p-3 last:border-b-0"
+        >
+          <app-icon nom="telephone" [taille]="18" class="shrink-0 text-primary" />
+          <span class="min-w-0 flex-1">
+            <span class="block text-[15px] font-semibold">{{ service.nom }}</span>
+            <span class="block text-[13px] text-text-secondary">{{ service.description }}</span>
+          </span>
+          <span class="text-title shrink-0 text-primary">{{ service.numero }}</span>
+        </a>
+      }
+    </div>
+  </section>
+
+  <p class="text-center text-[12px] text-text-muted">
+    Conseils generaux de securite inondation. En cas de danger immediat, suivez toujours les
+    instructions des services de secours sur place.
+  </p>
+</div>
+
+@if (sosOuvert()) {
+  <app-sos-sheet (fermer)="sosOuvert.set(false)" />
+}
+
+<app-navbar />

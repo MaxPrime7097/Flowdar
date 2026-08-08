@@ -1,0 +1,25 @@
+<header class="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-surface px-4">
+  <button
+    type="button"
+    (click)="retour()"
+    class="flex h-10 w-10 items-center justify-center rounded-full text-primary transition-transform active:scale-95"
+    aria-label="Retour"
+  >
+    <app-icon nom="retour" [taille]="22" />
+  </button>
+  <h1 class="text-headline text-primary">{{ titre() }}</h1>
+  <a
+    routerLink="/notifications"
+    class="relative flex h-10 w-10 items-center justify-center rounded-full text-primary transition-transform active:scale-95"
+    aria-label="Notifications"
+  >
+    <app-icon nom="cloche" [taille]="22" />
+    @if (nonLues() > 0) {
+      <span
+        class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white"
+      >
+        {{ nonLues() > 9 ? '9+' : nonLues() }}
+      </span>
+    }
+  </a>
+</header>
