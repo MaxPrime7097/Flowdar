@@ -1,0 +1,51 @@
+<app-top-app-bar titre="Profil" />
+
+<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+  @if (chargement()) {
+    <app-skeleton [hauteur]="96" />
+    <app-skeleton [hauteur]="160" />
+  } @else if (utilisateur(); as utilisateur) {
+    <section class="flex flex-col items-center gap-2 py-2">
+      <span class="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-display text-white">
+        {{ initiale() }}
+      </span>
+      <p class="text-title">{{ utilisateur.nom || 'Utilisateur Flowdar' }}</p>
+      <p class="text-[13px] text-text-secondary">{{ utilisateur.email }}</p>
+    </section>
+
+    <section class="space-y-3 rounded-card border border-border bg-surface p-4">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+          <app-icon nom="mail" [taille]="18" />
+        </span>
+        <div>
+          <p class="text-label uppercase text-text-secondary">Email</p>
+          <p class="text-[15px] font-medium">{{ utilisateur.email }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 border-t border-border pt-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+          <app-icon nom="localisation" [taille]="18" />
+        </span>
+        <div>
+          <p class="text-label uppercase text-text-secondary">Quartier de domicile</p>
+          <p class="text-[15px] font-medium">{{ utilisateur.quartier_domicile || 'Non renseigne' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <button
+      type="button"
+      (click)="deconnexion()"
+      [disabled]="deconnexionEnCours()"
+      class="btn-secondary w-full text-danger"
+    >
+      {{ deconnexionEnCours() ? 'Deconnexion...' : 'Se deconnecter' }}
+    </button>
+  } @else {
+    <p class="text-center text-[15px] text-text-secondary">Profil introuvable.</p>
+  }
+</div>
+
+<app-navbar />

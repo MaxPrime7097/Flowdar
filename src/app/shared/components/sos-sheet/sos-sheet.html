@@ -1,0 +1,50 @@
+<div class="fixed inset-0 z-50 flex items-end justify-center bg-black/40" (click)="fermer.emit()">
+  <div
+    class="w-full max-w-lg space-y-3 rounded-t-2xl bg-surface p-5 pb-8"
+    role="dialog"
+    aria-label="Appeler les secours"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h2 class="text-title">Appeler les secours</h2>
+        <p class="text-[13px] text-text-secondary">Choisissez le service adapte a votre situation.</p>
+      </div>
+      <button type="button" (click)="fermer.emit()" class="text-text-muted" aria-label="Fermer">
+        <app-icon nom="fermer" [taille]="20" />
+      </button>
+    </div>
+
+    @for (service of services; track service.numero) {
+      <a
+        [href]="'tel:' + service.numero"
+        class="flex items-center gap-3 rounded-card border p-3 transition-colors"
+        [class]="service.principal ? 'border-danger bg-danger-light' : 'border-border bg-surface'"
+      >
+        <span
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white"
+          [class]="service.principal ? 'bg-danger' : 'bg-text-secondary'"
+        >
+          <app-icon nom="telephone" [taille]="20" />
+        </span>
+        <span class="min-w-0 flex-1">
+          <span class="flex items-baseline gap-2">
+            <span class="text-title">{{ service.nom }}</span>
+            @if (service.principal) {
+              <span class="text-label rounded-badge bg-danger px-2 py-0.5 text-white">INONDATION</span>
+            }
+          </span>
+          <span class="block text-[13px] text-text-secondary">{{ service.description }}</span>
+        </span>
+        <span class="text-headline shrink-0 font-extrabold" [class]="service.principal ? 'text-danger' : 'text-text-primary'">
+          {{ service.numero }}
+        </span>
+      </a>
+    }
+
+    <p class="pt-1 text-center text-[12px] text-text-muted">
+      Sans credit ni reseau operateur, composez le
+      <a [href]="'tel:' + numeroUniversel" class="font-bold text-primary">{{ numeroUniversel }}</a>.
+    </p>
+  </div>
+</div>

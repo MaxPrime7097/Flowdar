@@ -1,0 +1,14 @@
+<div class="relative h-full w-full overflow-hidden">
+  <div #mapContainer class="h-full w-full"></div>
+
+  <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+    <button
+      type="button"
+      (click)="recentrer()"
+      class="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-primary shadow-md active:scale-95"
+      aria-label="Recentrer sur ma position"
+    >
+      <app-icon nom="cibler" [taille]="20" />
+    </button>
+  </div>
+</div>

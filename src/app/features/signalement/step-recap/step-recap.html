@@ -1,0 +1,53 @@
+@if (envoye()) {
+  <div class="flex flex-col items-center gap-3 py-6 text-center">
+    @if (enFileAttente()) {
+      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-warning-light text-warning">
+        <app-icon nom="horloge" [taille]="26" />
+      </span>
+      <p class="font-display font-semibold">Pas de connexion : signalement enregistre sur cet appareil.</p>
+      <p class="text-[13px] text-text-secondary">Il sera envoye automatiquement des que la connexion revient.</p>
+    } @else {
+      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-success-light text-success">
+        <app-icon nom="check" [taille]="26" />
+      </span>
+      <p class="font-display font-semibold">Signalement recu, en cours de validation par la communaute.</p>
+      @if (modeZone() === 'inconnue') {
+        <p class="text-[13px] text-text-secondary">Si 5 citoyens confirment, cette zone apparaitra sur la carte.</p>
+      }
+    }
+    <button type="button" (click)="retourCarte.emit()" class="btn-primary px-4">Retour a la carte</button>
+  </div>
+} @else {
+  <div class="space-y-4">
+    <div class="rounded-card border border-primary/10 bg-surface p-5 shadow-sm">
+      <div class="mb-4 flex items-center gap-4">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white" [class]="couleurAvatar()">
+          <app-icon nom="warning" [taille]="22" />
+        </span>
+        <div>
+          <h2 class="text-title">Resume du rapport</h2>
+          <p class="text-[13px] text-text-secondary">Zone : {{ nomQuartier() }}</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-border pt-4">
+        <span class="text-[15px] text-text-secondary">Gravite</span>
+        <app-badge-niveau [niveau]="niveau()" />
+      </div>
+      <p class="mt-4 whitespace-pre-line text-[15px]">{{ description() }}</p>
+    </div>
+
+    @if (modeZone() === 'inconnue') {
+      <div class="flex items-start gap-3 rounded-card bg-primary-light p-4">
+        <app-icon nom="info" [taille]="20" class="mt-0.5 shrink-0 text-primary" />
+        <p class="text-[13px] text-primary">
+          Si 5 citoyens confirment, cette zone apparaitra sur la carte en temps reel pour tous les utilisateurs.
+        </p>
+      </div>
+    }
+
+    <button type="button" (click)="envoyer.emit()" [disabled]="envoiEnCours()" class="btn-primary w-full">
+      <app-icon nom="envoyer" [taille]="18" />
+      {{ envoiEnCours() ? 'Envoi...' : 'Envoyer le rapport' }}
+    </button>
+  </div>
+}

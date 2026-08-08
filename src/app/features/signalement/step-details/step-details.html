@@ -1,0 +1,42 @@
+<div [formGroup]="group()" class="space-y-5">
+  <div>
+    <label class="text-label mb-1 block uppercase text-text-secondary">Description</label>
+    <textarea
+      formControlName="description"
+      rows="4"
+      class="w-full resize-none rounded-card border border-border p-4 text-[15px]"
+      placeholder="Decrivez la situation (ex: egout bouche, hauteur de l'eau...)"
+    ></textarea>
+  </div>
+
+  <div>
+    <label class="text-label mb-2 block uppercase text-text-secondary">Media</label>
+    <div class="grid grid-cols-2 gap-4">
+      <button
+        type="button"
+        (click)="ouvrirSelecteur()"
+        class="flex aspect-square flex-col items-center justify-center gap-2 rounded-card border-2 border-dashed border-border text-text-secondary transition-colors hover:bg-background"
+      >
+        <app-icon nom="appareil-photo" [taille]="28" />
+        <span class="text-[13px] font-medium">Ajouter photo</span>
+      </button>
+
+      @if (apercuUrl(); as apercu) {
+        <div class="relative aspect-square overflow-hidden rounded-card bg-background">
+          <img [src]="apercu" alt="Photo du signalement" class="h-full w-full object-cover" />
+        </div>
+      }
+    </div>
+    <input
+      #fichierInput
+      type="file"
+      accept="image/*"
+      class="hidden"
+      aria-label="Choisir une photo"
+      (change)="onFichierChoisi($event)"
+    />
+    @if (photoSelectionnee()) {
+      <p class="mt-2 text-[13px] font-medium text-success">{{ photoSelectionnee()!.name }} selectionnee.</p>
+    }
+  </div>
+</div>

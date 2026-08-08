@@ -1,0 +1,107 @@
+<app-top-app-bar titre="Prevention" />
+
+<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+  @if (bandeauMeteo().length > 0) {
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-title">Meteo Douala - Prochaines heures</h2>
+        <span class="text-label inline-flex items-center gap-1 rounded-badge bg-danger-light px-2 py-1 text-danger">
+          <span class="h-1.5 w-1.5 rounded-full bg-danger"></span>
+          EN DIRECT
+        </span>
+      </div>
+      <div class="flex gap-3 overflow-x-auto pb-1">
+        @for (heure of bandeauMeteo(); track heure.heure) {
+          <div
+            class="flex w-20 shrink-0 flex-col items-center gap-1 rounded-card border p-3"
+            [class]="heure.severe ? 'border-2 border-primary bg-primary-light' : 'border-border bg-surface'"
+          >
+            <span class="text-[13px] font-medium text-text-secondary">{{ heure.heure }}</span>
+            <app-icon
+              [nom]="heure.icone"
+              [taille]="24"
+              [class]="heure.severe ? 'text-primary' : 'text-text-secondary'"
+            />
+            <span class="text-[13px] font-bold">{{ heure.mm }}mm</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <section class="space-y-3">
+    <h2 class="text-title">Zones a surveiller</h2>
+
+    @if (chargement()) {
+      <app-skeleton [hauteur]="96" />
+      <app-skeleton [hauteur]="96" />
+      <app-skeleton [hauteur]="96" />
+    } @else if (previsions().length === 0) {
+      <app-empty-state
+        titre="Aucun risque prevu"
+        description="Aucune zone ne depasse le seuil de risque dans les 6 prochaines heures."
+      />
+    } @else {
+      <div class="space-y-3">
+        @for (prevision of previsions(); track prevision.nomQuartier + prevision.heurePrevue) {
+          <div class="flex overflow-hidden rounded-card border border-border bg-surface">
+            <div class="w-1.5 shrink-0" [class]="couleurNiveau(prevision.niveau).fond"></div>
+            <div class="flex-1 p-3">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="font-display font-bold">{{ prevision.nomQuartier }}</p>
+                  <p class="text-[13px] text-text-secondary">
+                    Prevu a {{ prevision.heurePrevue | date: 'HH:mm' }}
+                  </p>
+                </div>
+                <div class="text-right">
+                  <p
+                    class="text-headline font-extrabold leading-none"
+                    [class]="couleurNiveau(prevision.niveau).texte"
+                  >
+                    {{ prevision.score }}
+                  </p>
+                  <p class="text-label text-text-muted">SCORE</p>
+                </div>
+              </div>
+              <div class="mt-2 flex items-center justify-between border-t border-border pt-2">
+                <app-badge-niveau [niveau]="prevision.niveau" />
+                @if (prevision.alerteId) {
+                  <a
+                    [routerLink]="['/alerte', prevision.alerteId]"
+                    class="text-label inline-flex items-center gap-1 font-bold text-primary"
+                  >
+                    DETAILS
+                    <app-icon nom="chevron-droite" [taille]="14" />
+                  </a>
+                } @else {
+                  <span class="text-label text-text-muted">PREVISION METEO</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <div class="rounded-card bg-primary p-5 text-white">
+    <div class="flex items-start gap-3">
+      <app-icon nom="bouclier" [taille]="28" />
+      <div class="space-y-1">
+        <h3 class="text-title text-white">Preparez-vous</h3>
+        <p class="text-[13px] text-white/90">
+          Un risque d'inondation est detecte a proximite. Consultez les gestes qui peuvent vous proteger.
+        </p>
+      </div>
+    </div>
+    <a
+      routerLink="/guide-prevention"
+      class="mt-4 flex w-full items-center justify-center rounded-full bg-white py-2.5 text-[14px] font-bold text-primary"
+    >
+      Guide de prevention
+    </a>
+  </div>
+</div>
+
+<app-navbar />

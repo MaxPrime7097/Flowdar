@@ -1,0 +1,69 @@
+<app-toast [message]="messageToast()" />
+
+<app-top-app-bar [titre]="alerte()?.nom_quartier ?? 'Detail'" />
+
+<div class="mx-auto max-w-lg space-y-5 p-4 pt-20 pb-24">
+  @if (chargement()) {
+    <app-skeleton [hauteur]="140" />
+    <app-skeleton [hauteur]="180" />
+    <app-skeleton [hauteur]="140" />
+  } @else if (alerte(); as alerte) {
+    <div class="flex flex-col items-center gap-2">
+      <app-score-badge [score]="alerte.score" [niveau]="alerte.niveau" taille="detail" />
+      @if (etatBadge(); as etat) {
+        <app-badge-statut [etat]="etat" />
+      }
+      <p class="text-[15px] text-text-secondary">{{ labelSource() }}</p>
+      <p class="flex items-center gap-1 text-[13px] text-text-muted">
+        <app-icon nom="horloge" [taille]="14" />
+        {{ alerte.heure_debut | tempsEcoule }}
+      </p>
+    </div>
+
+    <div class="relative h-40 overflow-hidden rounded-card border border-border">
+      <div #miniMapContainer class="h-full w-full"></div>
+      <span class="text-label absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 shadow">
+        <app-icon nom="utilisateurs" [taille]="14" />
+        {{ alerte.nb_confirmations }} confirmations
+      </span>
+    </div>
+
+    @if (alerte.score_detail) {
+      <div class="rounded-card border border-border bg-surface p-4">
+        <h2 class="text-label mb-3 uppercase text-text-secondary">Analyse du risque</h2>
+        <app-score-breakdown [detail]="alerte.score_detail" />
+      </div>
+    }
+
+    <p class="flex items-center gap-2 text-[15px]">
+      <app-icon nom="check" [taille]="18" class="text-primary" />
+      <strong>{{ alerte.nb_confirmations }}</strong> citoyens ont confirme ce danger
+    </p>
+
+    <div class="flex flex-col gap-3">
+      <button type="button" (click)="confirmer()" class="btn-primary">
+        <app-icon nom="check" [taille]="18" />
+        Toujours inonde
+      </button>
+      <button type="button" (click)="cestPasse()" class="btn-secondary">
+        <app-icon nom="check" [taille]="18" />
+        Zone degagee
+      </button>
+      <button type="button" (click)="sosOuvert.set(true)" class="btn-danger">
+        <app-icon nom="sos" [taille]="18" />
+        Appel d'urgence (SOS)
+      </button>
+    </div>
+
+    <div>
+      <h2 class="text-title mb-2">{{ alerte.nb_confirmations }} confirmation(s)</h2>
+      <app-confirmation-list [confirmations]="confirmations()" />
+    </div>
+  } @else {
+    <p class="text-text-secondary">Alerte introuvable.</p>
+  }
+</div>
+
+@if (sosOuvert()) {
+  <app-sos-sheet (fermer)="sosOuvert.set(false)" />
+}

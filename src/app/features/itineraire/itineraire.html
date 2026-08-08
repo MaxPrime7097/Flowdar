@@ -1,0 +1,79 @@
+<app-top-app-bar titre="Itineraire" />
+
+<div class="flex h-screen flex-col pt-16 pb-16">
+  <div class="space-y-3 border-b border-border bg-surface p-4 shadow-sm">
+    <div>
+      <label class="text-label mb-1 block uppercase text-text-secondary">Depart</label>
+      <div class="flex items-center gap-2 rounded-button border border-border bg-background px-3 py-2">
+        <app-icon nom="cibler" [taille]="16" class="shrink-0 text-primary" />
+        <span class="text-[15px] font-semibold">
+          {{ origine() ? 'Ma position' : 'Localisation en cours...' }}
+        </span>
+      </div>
+    </div>
+
+    <div>
+      <label class="text-label mb-1 block uppercase text-text-secondary">Destination</label>
+      <div
+        class="flex items-center gap-2 rounded-button border border-primary bg-background px-3 py-2 ring-1 ring-primary"
+      >
+        <app-icon nom="localisation" [taille]="16" class="shrink-0 text-danger" />
+        <input
+          #destinationInput
+          type="text"
+          placeholder="Ou allez-vous ?"
+          aria-label="Destination"
+          class="w-full border-none bg-transparent p-0 text-[15px] font-semibold focus:outline-none focus:ring-0"
+        />
+      </div>
+    </div>
+
+    <button type="button" (click)="calculerItineraire()" [disabled]="enCours()" class="btn-primary w-full">
+      <app-icon nom="voiture" [taille]="18" />
+      {{ enCours() ? 'Calcul en cours...' : "Calculer l'itineraire securise" }}
+    </button>
+  </div>
+
+  <div class="relative flex-1">
+    <app-itineraire-carte [route]="route()" [zonesAlertees]="zonesAlertees()" [origine]="origine()" />
+
+    @if (itineraireCalcule()) {
+      <div class="absolute inset-x-4 top-4">
+        @switch (statut()) {
+          @case ('traverse') {
+            <div class="flex items-start gap-3 rounded-card border-2 border-danger bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+              <app-icon nom="danger" [taille]="20" class="mt-0.5 shrink-0 text-danger" />
+              <div>
+                <p class="text-[14px] font-bold text-danger">Attention — trajet a risque</p>
+                <p class="text-[13px] text-text-secondary">
+                  Ce trajet passe pres de {{ libelleTraversees() }}. Aucun itineraire alternatif
+                  ne permet de l'eviter.
+                </p>
+              </div>
+            </div>
+          }
+          @case ('evite') {
+            <div class="flex items-start gap-3 rounded-card border border-primary/30 bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+              <app-icon nom="info" [taille]="20" class="mt-0.5 shrink-0 text-primary" />
+              <div>
+                <p class="text-[14px] font-semibold">Itineraire modifie</p>
+                <p class="text-[13px] text-text-secondary">Evite {{ libelleEvitees() }}.</p>
+              </div>
+            </div>
+          }
+          @case ('degage') {
+            <div class="flex items-start gap-3 rounded-card border border-success/20 bg-surface/95 p-3 shadow-lg backdrop-blur-md">
+              <app-icon nom="check" [taille]="20" class="mt-0.5 shrink-0 text-success" />
+              <div>
+                <p class="text-[14px] font-semibold">Itineraire praticable</p>
+                <p class="text-[13px] text-text-secondary">Aucune zone alertee sur le trajet.</p>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<app-navbar />

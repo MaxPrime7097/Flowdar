@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Flowdar design tokens - DESIGN.md v2 (réconcilié avec l'export Stitch) */
+@theme {
+  --color-primary: #1a56db;
+  --color-primary-light: #dbeafe;
+  --color-primary-dark: #1e40af;
+
+  --color-danger: #dc2626;
+  --color-danger-light: #fee2e2;
+
+  --color-warning: #d97706;
+  --color-warning-light: #fef3c7;
+
+  --color-caution: #ca8a04;
+  --color-caution-light: #fef9c3;
+
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+
+  --color-surface: #ffffff;
+  --color-background: #f8fafc;
+  --color-border: #e2e8f0;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+
+  --font-display: 'DM Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius-badge: 9999px; /* v2 : pill complet (voir note de reconciliation) */
+  --radius-card: 12px;
+  --radius-button: 8px;
+
+  /* Echelle typographique alignee sur les maquettes Stitch (section 3 du DESIGN.md,
+     tailles/poids repris de leur config Tailwind, polices Inter/DM Sans conservees). */
+  --text-display: 2rem; /* 32px - logo/titre auth */
+  --text-display--line-height: 2.5rem;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-headline: 1.5rem; /* 24px - titre d'ecran (TopAppBar) */
+  --text-headline--line-height: 2rem;
+  --text-headline--letter-spacing: -0.01em;
+  --text-headline--font-weight: 600;
+
+  --text-title: 1.125rem; /* 18px - titre de card/section */
+  --text-title--line-height: 1.5rem;
+  --text-title--font-weight: 600;
+
+  --text-status: 3rem; /* 48px - score numerique proeminent */
+  --text-status--line-height: 3rem;
+  --text-status--letter-spacing: -0.04em;
+  --text-status--font-weight: 800;
+
+  --text-label: 0.75rem; /* 12px - labels/majuscules */
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.05em;
+  --text-label--font-weight: 700;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+h1, h2, h3, .font-display,
+.text-display, .text-headline, .text-title, .text-status {
+  font-family: var(--font-display);
+}
+
+/* Material Symbols Outlined - jeu d'icones des maquettes Stitch */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  line-height: 1;
+  user-select: none;
+}
+.material-symbols-outlined.icon-fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Puce flottante au-dessus des marqueurs carte (Google Maps ne supporte pas de fond
+   colore natif sur un MarkerLabel, on l'ajoute via CSS - maquette flowdar_carte_en_temps_r_el) */
+.marqueur-score-label {
+  background: #ffffff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Boutons - DESIGN.md section 5 "Boutons" : hauteur 48px minimum, jamais de style inline */
+@layer components {
+  .btn-primary {
+    @apply flex h-12 items-center justify-center rounded-button px-4 font-medium text-[15px] transition-opacity bg-primary text-white disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-secondary {
+    @apply flex h-12 items-center justify-center rounded-button px-4 font-medium text-[15px] transition-opacity bg-[#F1F5F9] text-text-primary disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-danger {
+    @apply flex h-12 items-center justify-center rounded-button px-4 font-medium text-[15px] transition-opacity bg-danger text-white disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-fab {
+    @apply flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg;
+  }
+  /* FAB etendu avec label, comme sur l'ecran Carte de Stitch ("+ Signaler une zone") */
+  .btn-fab-label {
+    @apply flex h-14 items-center gap-2 rounded-full bg-primary px-5 text-[15px] font-semibold text-white shadow-lg transition-transform active:scale-95;
+  }
+}

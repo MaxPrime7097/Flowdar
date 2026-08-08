@@ -1,0 +1,103 @@
+<app-top-app-bar titre="Notifications" />
+
+<div class="mx-auto max-w-lg space-y-5 p-4 pt-20 pb-24">
+  @switch (etatPermission()) {
+    @case ('a-demander') {
+      <section class="rounded-card bg-primary p-5 text-white">
+        <div class="flex items-start gap-3">
+          <app-icon nom="cloche" [taille]="26" />
+          <div class="space-y-1">
+            <h2 class="text-title text-white">Soyez alerte a temps</h2>
+            <p class="text-[13px] text-white/90">
+              Recevez une notification des qu'une inondation menace votre quartier, meme si
+              l'application est fermee.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          (click)="activer()"
+          [disabled]="activationEnCours()"
+          class="mt-4 w-full rounded-full bg-white py-2.5 text-[14px] font-bold text-primary"
+        >
+          {{ activationEnCours() ? 'Activation...' : 'Activer les notifications' }}
+        </button>
+        @if (echecActivation()) {
+          <p class="mt-2 text-center text-[12px] text-white/90">
+            Activation impossible sur cet appareil. Verifiez la configuration push.
+          </p>
+        }
+      </section>
+    }
+    @case ('refusee') {
+      <section class="flex items-start gap-3 rounded-card border border-warning/30 bg-warning-light p-4">
+        <app-icon nom="warning" [taille]="20" class="mt-0.5 shrink-0 text-warning" />
+        <div>
+          <p class="text-[15px] font-semibold text-warning">Notifications bloquees</p>
+          <p class="text-[13px] text-text-secondary">
+            Vous avez refuse les notifications. Pour les reactiver, autorisez-les pour Flowdar
+            dans les reglages de votre navigateur.
+          </p>
+        </div>
+      </section>
+    }
+    @case ('indisponible') {
+      <section class="flex items-start gap-3 rounded-card border border-border bg-surface p-4">
+        <app-icon nom="info" [taille]="20" class="mt-0.5 shrink-0 text-text-secondary" />
+        <div>
+          <p class="text-[15px] font-semibold">Notifications indisponibles</p>
+          <p class="text-[13px] text-text-secondary">
+            Ce navigateur ne prend pas en charge les notifications push. Consultez la carte pour
+            suivre les alertes en cours.
+          </p>
+        </div>
+      </section>
+    }
+    @case ('accordee') {
+      <section class="flex items-center gap-3 rounded-card border border-success/30 bg-success-light p-3">
+        <app-icon nom="check" [taille]="18" class="shrink-0 text-success" />
+        <p class="text-[13px] font-medium text-success">Notifications activees sur cet appareil.</p>
+      </section>
+    }
+  }
+
+  <section class="space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-title">Recues</h2>
+      @if (notifications().length > 0) {
+        <button type="button" (click)="vider()" class="text-[13px] font-semibold text-primary">
+          Tout effacer
+        </button>
+      }
+    </div>
+
+    @if (notifications().length === 0) {
+      <app-empty-state
+        titre="Aucune notification"
+        description="Les alertes concernant vos quartiers apparaitront ici."
+      />
+    } @else {
+      <div class="space-y-2">
+        @for (notification of notifications(); track notification.id) {
+          <div
+            class="flex items-start gap-3 rounded-card border p-3"
+            [class]="notification.lue ? 'border-border bg-surface' : 'border-primary/30 bg-primary-light'"
+          >
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white">
+              <app-icon nom="cloche" [taille]="16" />
+            </span>
+            <div class="min-w-0 flex-1">
+              <p class="text-[15px] font-semibold">{{ notification.titre }}</p>
+              @if (notification.corps) {
+                <p class="text-[13px] text-text-secondary">{{ notification.corps }}</p>
+              }
+              <p class="text-label mt-1 text-text-muted">{{ notification.recueLe | tempsEcoule }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</div>
+
+<app-navbar />

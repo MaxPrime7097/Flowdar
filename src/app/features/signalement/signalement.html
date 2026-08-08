@@ -1,0 +1,81 @@
+<app-top-app-bar titre="Signaler" />
+
+<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+  @if (!envoye()) {
+    <nav class="relative mb-2 flex items-center justify-between px-6">
+      <div class="absolute left-10 right-10 top-4 h-0.5 -translate-y-1/2 bg-[#E2E8F0]"></div>
+      <div
+        class="absolute left-10 top-4 h-0.5 -translate-y-1/2 bg-primary transition-all duration-300"
+        [style.width.%]="(etapeActuelle() - 1) * 50"
+      ></div>
+      @for (etape of etapes; track etape.numero) {
+        <div class="relative flex flex-col items-center gap-1">
+          <div
+            class="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-bold transition-colors"
+            [class]="
+              etape.numero < etapeActuelle()
+                ? 'bg-success text-white'
+                : etape.numero === etapeActuelle()
+                  ? 'bg-primary text-white'
+                  : 'bg-[#E2E8F0] text-text-secondary'
+            "
+          >
+            @if (etape.numero < etapeActuelle()) {
+              <app-icon nom="check" [taille]="14" />
+            } @else {
+              {{ etape.numero }}
+            }
+          </div>
+          <span class="text-label" [class]="etape.numero <= etapeActuelle() ? 'text-primary' : 'text-text-secondary'">
+            {{ etape.label }}
+          </span>
+        </div>
+      }
+    </nav>
+  }
+
+  @switch (etapeActuelle()) {
+    @case (1) {
+      <app-step-zone
+        [group]="form.controls.zone"
+        [zones]="zones()"
+        [positionPrete]="positionPrete()"
+        (demanderPosition)="utiliserPositionActuelle()"
+      />
+    }
+    @case (2) {
+      <app-step-details
+        [group]="form.controls.details"
+        [photoSelectionnee]="photoFile()"
+        (photoChangee)="photoFile.set($event)"
+      />
+    }
+    @case (3) {
+      <app-step-recap
+        [modeZone]="form.controls.zone.controls.modeZone.value"
+        [zoneId]="form.controls.zone.controls.zoneId.value"
+        [niveau]="form.controls.zone.controls.niveau.value"
+        [description]="form.controls.details.controls.description.value"
+        [zones]="zones()"
+        [envoiEnCours]="envoiEnCours()"
+        [envoye]="envoye()"
+        [enFileAttente]="enFileAttente()"
+        (envoyer)="envoyer()"
+        (retourCarte)="retourCarte()"
+      />
+    }
+  }
+
+  @if (!envoye()) {
+    <div class="flex justify-between pt-2">
+      @if (etapeActuelle() > 1) {
+        <button type="button" (click)="precedent()" class="btn-secondary px-4">Precedent</button>
+      } @else {
+        <span></span>
+      }
+      @if (etapeActuelle() < 3) {
+        <button type="button" (click)="suivant()" class="btn-primary px-4">Suivant</button>
+      }
+    </div>
+  }
+</div>

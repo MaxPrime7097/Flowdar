@@ -1,0 +1,34 @@
+<a
+  [routerLink]="['/alerte', alerte().id]"
+  class="flex overflow-hidden rounded-card border border-border bg-surface transition-transform active:scale-[0.99]"
+>
+  <div class="w-1.5 shrink-0" [class]="bordure().replace('border-l-', 'bg-')"></div>
+  <div class="flex-1 p-4">
+    <div class="flex items-center justify-between gap-3">
+      <div class="min-w-0 flex-1 space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="text-title">{{ dateFormatee() }}</span>
+          <span class="text-label rounded px-2 py-0.5 uppercase" [class]="classesSeverite()">
+            {{ labelSeverite() }}
+          </span>
+        </div>
+        <div class="grid grid-cols-2 gap-y-1 text-[13px] text-text-secondary">
+          <span class="flex items-center gap-1">
+            <app-icon nom="info" [taille]="14" />
+            {{ labelSource() }}
+          </span>
+          <span class="flex items-center gap-1">
+            <app-icon nom="utilisateurs" [taille]="14" />
+            {{ alerte().nb_confirmations }} confirmation(s)
+          </span>
+        </div>
+      </div>
+      <div class="shrink-0 text-right">
+        <p class="text-label text-text-muted">SCORE</p>
+        <p class="text-headline font-extrabold leading-none" [class]="couleurScore()">
+          {{ alerte().score }}
+        </p>
+      </div>
+    </div>
+  </div>
+</a>
