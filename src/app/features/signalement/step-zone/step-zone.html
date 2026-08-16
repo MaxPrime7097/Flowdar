@@ -1,84 +1,83 @@
-<div [formGroup]="group()" class="space-y-5">
-  <div class="flex gap-2">
-    <label class="flex-1">
-      <input type="radio" formControlName="modeZone" value="connue" class="sr-only peer" />
-      <span
-        class="block cursor-pointer rounded-button border border-border px-3 py-2 text-center text-[15px] peer-checked:border-primary peer-checked:bg-primary-light peer-checked:text-primary"
-      >
-        Quartier connu
-      </span>
-    </label>
-    <label class="flex-1">
-      <input type="radio" formControlName="modeZone" value="inconnue" class="sr-only peer" />
-      <span
-        class="block cursor-pointer rounded-button border border-border px-3 py-2 text-center text-[15px] peer-checked:border-primary peer-checked:bg-primary-light peer-checked:text-primary"
-      >
-        Zone non repertoriee
-      </span>
-    </label>
+<div [formGroup]="group()" class="space-y-6">
+
+  <!-- Mode zone -->
+  <div>
+    <label class="text-label mb-2 block uppercase text-text-secondary">Type de localisation</label>
+    <div class="grid grid-cols-2 gap-3">
+      <label>
+        <input type="radio" formControlName="modeZone" value="inconnue" class="sr-only peer" />
+        <span class="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-border bg-surface p-4 text-center transition-all peer-checked:border-primary peer-checked:bg-primary-light">
+          <app-icon nom="cibler" [taille]="22" class="text-text-secondary" />
+          <span class="text-[13px] font-semibold">Ma position GPS</span>
+        </span>
+      </label>
+      <label>
+        <input type="radio" formControlName="modeZone" value="connue" class="sr-only peer" />
+        <span class="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-border bg-surface p-4 text-center transition-all peer-checked:border-primary peer-checked:bg-primary-light">
+          <app-icon nom="localisation" [taille]="22" class="text-text-secondary peer-checked:text-primary" />
+          <span class="text-[13px] font-semibold">Quartier connu</span>
+        </span>
+      </label>
+    </div>
   </div>
 
-  @if (group().value.modeZone === 'connue') {
-    <div>
-      <label class="text-label mb-1 block uppercase text-text-secondary">Quartier</label>
-      <div class="relative">
-        <select
-          formControlName="zoneId"
-          aria-label="Quartier"
-          class="w-full appearance-none rounded-button border border-border p-3 pr-10 text-[15px]"
-        >
-          <option [value]="null" disabled>Choisir un quartier</option>
-          @for (zone of zones(); track zone.id) {
-            <option [value]="zone.id">{{ zone.nom_quartier }}</option>
-          }
-        </select>
-        <app-icon
-          nom="chevron-bas"
-          [taille]="18"
-          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary"
-        />
-      </div>
+  <!-- Sélecteur quartier ou GPS -->
+  @if (group().value.modeZone === 'inconnue') {
+    <div class="rounded-2xl border-2 border-dashed p-5 text-center transition-all"
+      [class]="positionPrete() ? 'border-success bg-success-light' : 'border-border bg-surface'"
+    >
+      @if (positionPrete()) {
+        <div class="flex flex-col items-center gap-2">
+          <app-icon nom="check" [taille]="28" class="text-success" />
+          <p class="text-[14px] font-semibold text-success">Position GPS enregistrée</p>
+        </div>
+      } @else {
+        <div class="flex flex-col items-center gap-3">
+          <app-icon nom="cibler" [taille]="28" class="text-text-muted" />
+          <p class="text-[13px] text-text-secondary">Votre position exacte sera utilisée pour localiser la zone</p>
+          <button
+            type="button"
+            (click)="demanderPosition.emit()"
+            class="btn-primary px-6"
+          >
+            <app-icon nom="cibler" [taille]="16" />
+            Utiliser ma position
+          </button>
+        </div>
+      }
     </div>
   } @else {
-    <div class="rounded-button border border-border p-3">
-      @if (positionPrete()) {
-        <p class="flex items-center gap-2 text-[13px] font-medium text-success">
-          <app-icon nom="check" [taille]="16" />
-          Position GPS enregistree.
-        </p>
-      } @else {
-        <button
-          type="button"
-          (click)="demanderPosition.emit()"
-          class="flex w-full items-center justify-center gap-2 rounded-button bg-primary-light py-2.5 text-[15px] font-semibold text-primary"
-        >
-          <app-icon nom="cibler" [taille]="18" />
-          Utiliser ma position actuelle
-        </button>
-      }
+    <div>
+      <label class="text-label mb-2 block uppercase text-text-secondary">Quartier</label>
+      <app-select-custom
+        [options]="zonesOptions()"
+        placeholder="Choisir un quartier..."
+        [(valeur)]="zoneIdValue"
+      />
     </div>
   }
 
+  <!-- Niveau de danger -->
   <div>
-    <label class="text-label mb-2 block uppercase text-text-secondary">Niveau de danger</label>
+    <label class="text-label mb-3 block uppercase text-text-secondary">Niveau de danger</label>
     <div class="space-y-3">
       @for (niveau of niveaux; track niveau.valeur) {
         <label class="block cursor-pointer">
           <input type="radio" formControlName="niveau" [value]="niveau.valeur" class="peer sr-only" />
-          <span
-            class="flex items-center justify-between gap-4 rounded-card border border-border bg-surface p-4 shadow-sm transition-all peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary"
+          <span class="flex items-center gap-4 rounded-2xl border-2 border-border bg-surface p-4 transition-all peer-checked:border-current peer-checked:shadow-md"
+            [class]="niveau.texte"
           >
-            <span class="flex items-center gap-4">
-              <span class="h-12 w-3 shrink-0 rounded-full" [class]="niveau.fond"></span>
-              <span class="text-left">
-                <span class="text-title block">{{ niveau.label }}</span>
-                <span class="block text-[13px] text-text-secondary">{{ niveau.description }}</span>
-              </span>
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" [class]="niveau.fondClair">
+              <app-icon [nom]="niveau.icone" [taille]="22" [class]="niveau.texte" />
             </span>
-            <app-icon [nom]="niveau.icone" [taille]="22" [class]="niveau.texte" />
+            <span class="flex-1">
+              <span class="block text-[15px] font-bold text-text-primary">{{ niveau.label }}</span>
+              <span class="block text-[13px] text-text-secondary">{{ niveau.description }}</span>
+            </span>
           </span>
         </label>
       }
     </div>
   </div>
+
 </div>

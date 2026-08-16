@@ -30,7 +30,7 @@
         </span>
         <div>
           <p class="text-label uppercase text-text-secondary">Quartier de domicile</p>
-          <p class="text-[15px] font-medium">{{ utilisateur.quartier_domicile || 'Non renseigne' }}</p>
+          <p class="text-[15px] font-medium">{{ utilisateur.quartier_domicile || 'Non renseigné' }}</p>
         </div>
       </div>
     </section>
@@ -39,9 +39,9 @@
       type="button"
       (click)="deconnexion()"
       [disabled]="deconnexionEnCours()"
-      class="btn-secondary w-full text-danger"
+      class="btn-danger w-full"
     >
-      {{ deconnexionEnCours() ? 'Deconnexion...' : 'Se deconnecter' }}
+      {{ deconnexionEnCours() ? 'Déconnexion...' : 'Se déconnecter' }}
     </button>
   } @else {
     <p class="text-center text-[15px] text-text-secondary">Profil introuvable.</p>

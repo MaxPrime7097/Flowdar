@@ -8,7 +8,7 @@ import { NiveauAlerte } from '../../../core/models';
 type TailleBadge = 'petit' | 'detail';
 
 const LABEL_NIVEAU: Record<NiveauAlerte, string> = {
-  leger: 'LEGER',
+  leger: 'LÉGER',
   moyen: 'MOYEN',
   dangereux: 'DANGEREUX',
 };

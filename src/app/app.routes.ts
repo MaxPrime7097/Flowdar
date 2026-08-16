@@ -7,6 +7,10 @@ import { noAuthGuard } from './core/guards/no-auth.guard';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () => import('./features/landing/landing').then((m) => m.Landing),
+  },
+  {
+    path: 'carte',
     loadComponent: () => import('./features/carte/carte').then((m) => m.Carte),
   },
   {
@@ -50,5 +54,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/auth').then((m) => m.Auth),
     canActivate: [noAuthGuard],
   },
+  {
+    path: 'legal/:doc',
+    loadComponent: () => import('./features/legal/legal').then((m) => m.Legal),
+  },
   { path: '**', redirectTo: '' },
 ];
+

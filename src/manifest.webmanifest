@@ -1,0 +1,17 @@
+{
+  "name": "Flowdar — Alertes d'inondation en temps réel",
+  "short_name": "Flowdar",
+  "theme_color": "#2257B3",
+  "background_color": "#F7F9FC",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

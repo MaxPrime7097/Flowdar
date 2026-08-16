@@ -32,6 +32,7 @@ function construireAlertePlaceholder(signalement: Signalement, prefixeId: string
     heure_debut: new Date().toISOString(),
     heure_prevue: null,
     nb_confirmations: 0,
+    nb_resolutions: 0,
     statut: 'en_resolution',
     photo_url: signalement.photo_url ?? null,
     firestore_id: id,
@@ -115,6 +116,18 @@ export class AlerteService {
       return of({ statut: 'resolu' });
     }
     return this.http.post<{ statut: string }>(`${environment.backendUrl}/api/alertes/${id}/resoudre`, {});
+  }
+
+  // POST /api/alertes/:id/resoudre - v4 - Signaler resolution declenche en_resolution
+  // Le backend gere la validation croisee: nb_resolutions >= 3 => statut = resolue
+  signalerResolution(id: string): Observable<{ nb_resolutions: number }> {
+    if (environment.useMockData) {
+      return of({ nb_resolutions: 1 });
+    }
+    return this.http.post<{ nb_resolutions: number }>(
+      `${environment.backendUrl}/api/alertes/${id}/resoudre`,
+      {},
+    );
   }
 
   // POST /api/alertes/signaler - zone connue (zone_id) OU inconnue (lat/lng GPS citoyen).

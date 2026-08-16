@@ -8,22 +8,24 @@ import { MapsService } from '../../core/services/maps.service';
 import { ZoneService } from '../../core/services/zone.service';
 import { Alerte, Confirmation, LABEL_SOURCE_ALERTE } from '../../core/models';
 import { BadgeStatut, EtatBadgeStatut } from '../../shared/components/badge-statut/badge-statut';
+import { CitizenCount } from '../../shared/components/citizen-count/citizen-count';
 import { Icon } from '../../shared/components/icon/icon';
-import { ScoreBadge } from '../../shared/components/score-badge/score-badge';
+import { ResolutionTracker } from '../../shared/components/resolution-tracker/resolution-tracker';
+import { RiskGauge } from '../../shared/components/risk-gauge/risk-gauge';
 import { Skeleton } from '../../shared/components/skeleton/skeleton';
 import { SosSheet } from '../../shared/components/sos-sheet/sos-sheet';
+import { SourceBadge } from '../../shared/components/source-badge/source-badge';
 import { TopAppBar } from '../../shared/components/top-app-bar/top-app-bar';
 import { Toast } from '../../shared/components/toast/toast';
 import { TempsEcoulePipe } from '../../shared/pipes/temps-ecoule.pipe';
 import { ConfirmationList } from './confirmation-list/confirmation-list';
 import { ScoreBreakdown } from './score-breakdown/score-breakdown';
 
-// Ecran 2 - Detail d'une alerte (Frontend Specifications v3, section 4 ; mini-carte,
-// analyse du risque et bouton SOS ajoutes pour matcher d_tail_de_l_alerte_ndokotti)
+// Ecran 2 - Detail d'une alerte v4 - 4 blocs distincts (source, statut, risque, citoyens)
+// (Frontend Specifications v4, section 5)
 @Component({
   selector: 'app-alerte-detail',
   imports: [
-    ScoreBadge,
     ScoreBreakdown,
     ConfirmationList,
     TempsEcoulePipe,
@@ -33,6 +35,10 @@ import { ScoreBreakdown } from './score-breakdown/score-breakdown';
     Icon,
     SosSheet,
     BadgeStatut,
+    SourceBadge,
+    RiskGauge,
+    CitizenCount,
+    ResolutionTracker,
   ],
   templateUrl: './alerte-detail.html',
   styleUrl: './alerte-detail.css',
@@ -64,7 +70,14 @@ export class AlerteDetail {
     if (!alerte) {
       return null;
     }
-    return alerte.type === 'preventive' ? 'preventif' : alerte.statut;
+    if (alerte.type === 'preventive') {
+      return 'preventif';
+    }
+    // Map v3 statut vers v4 etat : actif | resolu | en_resolution -> actif | resolue | en_resolution
+    if (alerte.statut === 'resolu') {
+      return 'resolue';
+    }
+    return alerte.statut;
   });
 
   constructor() {
@@ -116,7 +129,7 @@ export class AlerteDetail {
     }
     this.alerteService.confirmerAlerte(alerte.id).subscribe(({ nb_confirmations }) => {
       this.alerte.set({ ...alerte, nb_confirmations });
-      this.messageToast.set('Confirmation enregistree, merci !');
+      this.messageToast.set('Confirmation enregistrée, merci !');
     });
   }
 
@@ -129,9 +142,11 @@ export class AlerteDetail {
     if (!alerte) {
       return;
     }
-    this.alerteService.resoudreAlerte(alerte.id).subscribe(() => {
-      this.alerte.set({ ...alerte, statut: 'resolu' });
-      this.messageToast.set('Merci, alerte marquee comme resolue.');
+    // v4 - Signaler resolution declenche en_resolution (pas resolu immediatement)
+    // Le backend gere la validation croisee: 3 confirmations = resolution
+    this.alerteService.signalerResolution(alerte.id).subscribe(({ nb_resolutions }) => {
+      this.alerte.set({ ...alerte, statut: 'en_resolution', nb_resolutions: nb_resolutions ?? 1 });
+      this.messageToast.set('Thankyou for reporting, waiting for confirmation from other citizens.');
     });
   }
 }

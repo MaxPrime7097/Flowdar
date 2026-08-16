@@ -10,31 +10,41 @@
         [derniereMaj]="derniereMaj()"
       />
       @if (!horsLigne()) {
-        <a
-          routerLink="/notifications"
-          class="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border/60 bg-surface/90 text-text-secondary shadow-sm backdrop-blur-md"
-          aria-label="Notifications"
-        >
-          <app-icon nom="cloche" [taille]="20" />
-          @if (nonLues() > 0) {
-            <span
-              class="absolute right-2 top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white"
-            >
-              {{ nonLues() > 9 ? '9+' : nonLues() }}
-            </span>
-          }
-        </a>
+        <div class="flex shrink-0 items-center gap-1 rounded-full border border-border/60 bg-surface/90 px-2 py-2 shadow-md backdrop-blur-md">
+          <a
+            routerLink="/notifications"
+            class="relative flex h-8 w-8 items-center justify-center rounded-full"
+            aria-label="Notifications"
+          >
+            <app-icon nom="cloche" [taille]="20" class="text-primary"/>
+            @if (nonLues() > 0) {
+              <span
+                class="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white"
+              >
+                {{ nonLues() > 9 ? '9+' : nonLues() }}
+              </span>
+            }
+          </a>
+          <div class="h-4 w-px bg-border/60"></div>
+          <a
+            routerLink="/profil"
+            class="flex h-8 w-8 items-center justify-center rounded-full"
+            aria-label="Profil"
+          >
+            <app-icon nom="profil" [taille]="20" class="text-primary" />
+          </a>
+        </div>
       }
     </div>
 
     @if (!horsLigne()) {
-      <div class="flex h-12 items-center gap-2 rounded-full border border-border/60 bg-surface/90 px-4 shadow-sm backdrop-blur-md">
-        <app-icon nom="recherche" [taille]="18" class="text-text-muted" />
+      <div class="flex items-center gap-3 rounded-2xl border border-border/60 bg-surface/90 px-4 shadow-md backdrop-blur-md h-13">
+        <app-icon nom="recherche" [taille]="20" class="text-text-muted shrink-0" />
         <input
           #rechercheInput
           type="text"
           placeholder="Rechercher un lieu..."
-          class="w-full bg-transparent text-[15px] outline-none placeholder:text-text-muted"
+          class="w-full bg-transparent text-[15px] outline-none placeholder:text-text-muted py-3"
         />
       </div>
     }
@@ -46,7 +56,7 @@
       <app-skeleton [hauteur]="40" class="w-40" />
     </div>
   } @else if (alertes().length > 0) {
-    <div class="absolute inset-x-0 top-32 flex gap-2 overflow-x-auto px-3 py-2">
+    <div class="absolute inset-x-0 top-32 flex gap-2 overflow-x-auto px-3 py-2 [&::-webkit-scrollbar]:hidden">
       @for (alerte of alertes(); track alerte.id) {
         <app-carte-marqueur [alerte]="alerte" (selectionner)="alerteSelectionnee.set($event)" />
       }
@@ -57,10 +67,10 @@
     <div class="absolute inset-x-4 bottom-40 z-10">
       <div class="flex items-start gap-3 rounded-card border border-border/60 bg-surface/90 p-4 shadow-xl backdrop-blur-md">
         <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-danger-light text-danger">
-          <app-icon nom="warning" [taille]="20" />
+          <app-icon nom="alerte-dangereux" [taille]="20" />
         </span>
         <div class="flex-1">
-          <h3 class="text-title text-text-primary">Risque eleve detecte</h3>
+          <h3 class="text-title text-text-primary">Risque élevé détecté</h3>
           <p class="text-[13px] text-text-secondary">
             {{ critique.nom_quartier }} : Zone inondable ({{ critique.score }}/100)
           </p>

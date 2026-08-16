@@ -3,23 +3,11 @@
 <div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
   <section>
     <label class="text-label mb-2 block uppercase text-text-secondary">Localisation</label>
-    <div class="relative">
-      <select
-        class="w-full appearance-none rounded-button border border-border bg-surface p-3 pr-10 text-[15px]"
-        aria-label="Localisation"
-        [value]="quartierSelectionne()"
-        (change)="selectionnerQuartier($any($event.target).value)"
-      >
-        @for (zone of zones(); track zone.id) {
-          <option [value]="zone.nom_quartier">{{ zone.nom_quartier }}</option>
-        }
-      </select>
-      <app-icon
-        nom="chevron-bas"
-        [taille]="18"
-        class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary"
-      />
-    </div>
+    <app-select-custom
+      [options]="zonesOptions()"
+      placeholder="Choisir un quartier..."
+      [(valeur)]="quartierValue"
+    />
   </section>
 
   @if (quartierSelectionne() && !chargement()) {
@@ -29,7 +17,7 @@
           <app-icon nom="tendance" [taille]="20" />
           <span class="text-title text-white">{{ quartierSelectionne() }}</span>
         </div>
-        <p class="mb-4 text-[13px] text-white/90">Resume des activites d'inondation pour ce quartier.</p>
+        <p class="mb-4 text-[13px] text-white/90">Résumé des activités d'inondation pour ce quartier.</p>
         <div class="grid grid-cols-2 gap-3">
           <div class="rounded-lg bg-white/10 p-3">
             <span class="text-label block uppercase text-white/80">Alertes</span>
@@ -56,7 +44,7 @@
         <app-skeleton [hauteur]="88" />
       </div>
     } @else if (alertesPassees().length === 0) {
-      <app-empty-state titre="Aucun historique" description="Aucune alerte passee n'a ete enregistree pour ce quartier." />
+      <app-empty-state titre="Aucun historique" description="Aucune alerte passée n'a été enregistrée pour ce quartier." />
     } @else {
       <div class="space-y-3">
         @for (alerte of alertesPassees(); track alerte.id) {

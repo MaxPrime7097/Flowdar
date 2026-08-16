@@ -1,0 +1,9 @@
+<div class="space-y-2">
+  <p class="text-[13px] font-semibold" [class]="config().couleurTexte">{{ config().label }}</p>
+  <div class="flex items-center gap-3">
+    <div class="flex-1 h-2 rounded-full bg-slate-200 overflow-hidden">
+      <div class="h-full" [class]="config().couleurJauge" [style.width.%]="score()"></div>
+    </div>
+    <span class="text-[13px] font-bold text-text-secondary">{{ score() }}/100</span>
+  </div>
+</div>

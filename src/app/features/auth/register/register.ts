@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,11 +7,12 @@ import { ZoneService } from '../../../core/services/zone.service';
 import { ZoneARisque } from '../../../core/models';
 import { ErrorBanner } from '../../../shared/components/error-banner/error-banner';
 import { Icon } from '../../../shared/components/icon/icon';
+import { SelectCustom, SelectOption } from '../../../shared/components/select-custom/select-custom';
 
 // Email + mot de passe + Google Sign-In + quartier de domicile (Frontend Specifications v3, Ecran 7)
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, ErrorBanner, Icon],
+  imports: [ReactiveFormsModule, ErrorBanner, Icon, SelectCustom],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -25,6 +26,11 @@ export class Register {
   enCours = signal(false);
   motDePasseVisible = signal(false);
   zones = signal<ZoneARisque[]>([]);
+  quartierSelectionne = signal<string | null>(null);
+
+  get zonesOptions(): SelectOption[] {
+    return this.zones().map((z) => ({ valeur: z.nom_quartier, label: z.nom_quartier }));
+  }
 
   form = this.fb.nonNullable.group({
     email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
@@ -34,6 +40,8 @@ export class Register {
 
   constructor() {
     this.zoneService.getZonesARisque().subscribe((zones) => this.zones.set(zones));
+    // sync signal -> form control
+    effect(() => this.form.controls.quartierDomicile.setValue(this.quartierSelectionne() ?? ''));
   }
 
   inscription() {
@@ -44,7 +52,7 @@ export class Register {
     this.enCours.set(true);
     const { email, password, quartierDomicile } = this.form.getRawValue();
     this.authService.inscription(email, password, quartierDomicile).then(
-      () => this.router.navigateByUrl('/'),
+      () => this.router.navigateByUrl('/carte'),
       () => {
         this.erreur.set("Impossible de creer le compte.");
         this.enCours.set(false);
@@ -55,7 +63,7 @@ export class Register {
   connexionGoogle() {
     this.erreur.set(null);
     this.authService.connexionGoogle().then(
-      () => this.router.navigateByUrl('/'),
+      () => this.router.navigateByUrl('/carte'),
       () => this.erreur.set('Connexion Google echouee.'),
     );
   }

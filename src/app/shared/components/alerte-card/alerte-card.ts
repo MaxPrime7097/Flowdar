@@ -1,8 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { Alerte, BORDURE_PAR_NIVEAU, LABEL_SOURCE_ALERTE, NiveauAlerte } from '../../../core/models';
-import { Icon } from '../icon/icon';
+import { Alerte, BORDURE_PAR_NIVEAU, LABEL_SOURCE_ALERTE, NiveauAlerte, SourceAlerte } from '../../../core/models';
+import { Icon, NomIcone } from '../icon/icon';
 
 const MOIS_FR = [
   'janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin',
@@ -27,6 +27,18 @@ const COULEUR_SCORE: Record<NiveauAlerte, string> = {
   dangereux: 'text-danger',
 };
 
+const ICONE_SOURCE: Record<SourceAlerte, NomIcone> = {
+  auto: 'robot',
+  citoyen: 'megaphone',
+  onacc: 'robot',
+};
+
+const COULEUR_SOURCE: Record<SourceAlerte, string> = {
+  auto: 'text-primary',
+  citoyen: 'text-warning',
+  onacc: 'text-primary',
+};
+
 // Alerte Card - composant signature (DESIGN.md section 5) : bordure gauche coloree selon niveau,
 // date + pastille de severite / source + confirmations / score. Mise en page alignee sur la
 // maquette Stitch historique_des_alertes. Le modele Alerte n'expose pas de duree calculee
@@ -42,6 +54,8 @@ export class AlerteCard {
 
   bordure = computed(() => BORDURE_PAR_NIVEAU[this.alerte().niveau]);
   labelSource = computed(() => LABEL_SOURCE_ALERTE[this.alerte().source]);
+  iconeSource = computed(() => ICONE_SOURCE[this.alerte().source]);
+  couleurSource = computed(() => COULEUR_SOURCE[this.alerte().source]);
   labelSeverite = computed(() => LABEL_SEVERITE[this.alerte().niveau]);
   classesSeverite = computed(() => CLASSES_SEVERITE[this.alerte().niveau]);
   couleurScore = computed(() => COULEUR_SCORE[this.alerte().niveau]);

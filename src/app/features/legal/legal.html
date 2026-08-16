@@ -1,0 +1,104 @@
+<!-- Minimal Navbar -->
+<nav class="lg-nav">
+  <a class="lg-nav__brand" routerLink="/">
+    <img src="assets/logo.png" alt="Flowdar" width="28" height="28" style="border-radius: 6px;">
+    Flowdar
+  </a>
+  <a class="lg-nav__back" routerLink="/">Retour à l'accueil</a>
+</nav>
+
+<div class="lg-layout">
+  <aside class="lg-sidebar">
+    <h3 class="lg-sidebar__title">Documents Légaux</h3>
+    <ul class="lg-sidebar__list">
+      @for (item of navItems; track item.id) {
+        <li>
+          <a class="lg-sidebar__link"
+             [class.lg-sidebar__link--active]="currentDoc() === item.id"
+             [routerLink]="['/legal', item.id]">
+            {{ item.label }}
+          </a>
+        </li>
+      }
+    </ul>
+  </aside>
+
+  <main class="lg-content">
+    @if (currentDoc() === 'mentions') {
+      <div class="lg-doc">
+        <h1>Mentions Légales</h1>
+        <p class="lg-last-updated">Dernière mise à jour : Août 2026</p>
+
+        <h2>1. Éditeur de l'application</h2>
+        <p>L'application <strong>Flowdar</strong> (ci-après "l'Application") est éditée par <strong>Angular Talent Lab (ATL)</strong>, une structure basée à Douala, Cameroun.</p>
+        <p>Email de contact : contact&#64;flowdar.cm<br>
+           Directeur de la publication : Équipe ATL</p>
+
+        <h2>2. Hébergement</h2>
+        <p>L'Application et ses bases de données sont hébergées sur des serveurs sécurisés, garantissant une haute disponibilité pour le service d'alertes en temps réel.</p>
+        
+        <h2>3. Propriété Intellectuelle</h2>
+        <p>L'ensemble des éléments graphiques, textuels et informatiques de l'Application Flowdar (incluant le logo, le design, le code source, et l'architecture) sont la propriété exclusive d'Angular Talent Lab. Toute reproduction, représentation ou exploitation non autorisée est strictement interdite.</p>
+        
+        <h2>4. Limitation de responsabilité</h2>
+        <p>Flowdar est un outil d'aide à la décision basé sur des signalements communautaires et des données météorologiques. Bien que nous mettions tout en œuvre pour fournir des alertes fiables, l'éditeur ne saurait être tenu responsable des dommages directs ou indirects liés à l'utilisation ou à l'impossibilité d'utiliser l'Application.</p>
+      </div>
+    }
+
+    @if (currentDoc() === 'cgu') {
+      <div class="lg-doc">
+        <h1>Conditions Générales d'Utilisation (CGU)</h1>
+        <p class="lg-last-updated">Dernière mise à jour : Août 2026</p>
+
+        <h2>1. Objet</h2>
+        <p>Les présentes CGU ont pour objet de définir les modalités de mise à disposition et d'utilisation de l'application Flowdar. L'utilisation de l'Application implique l'acceptation pleine et entière des présentes conditions par l'Utilisateur.</p>
+
+        <h2>2. Accès au service</h2>
+        <p>Flowdar est accessible gratuitement à tout Utilisateur disposant d'une connexion internet. L'éditeur s'efforce de maintenir l'accès au service 24h/24, notamment durant les périodes de fortes intempéries à Douala, mais n'est tenu à aucune obligation de résultat concernant cette accessibilité.</p>
+
+        <h2>3. Signalements communautaires</h2>
+        <p>Les Utilisateurs ont la possibilité de signaler des zones inondées. L'Utilisateur s'engage à fournir des informations véridiques et pertinentes. Tout signalement abusif, trompeur ou sans rapport avec l'objet de l'Application pourra entraîner la suspension du compte de l'Utilisateur.</p>
+
+        <h2>4. Modération</h2>
+        <p>L'éditeur se réserve le droit de modérer, supprimer ou modifier tout signalement jugé inapproprié ou incorrect, sans préavis.</p>
+
+        <h2>5. Responsabilité de l'Utilisateur</h2>
+        <p>L'Utilisateur est seul responsable de l'utilisation qu'il fait des informations obtenues via Flowdar. L'Application ne se substitue pas aux consignes de sécurité des autorités locales (ex: Protection Civile) en cas de crise majeure.</p>
+      </div>
+    }
+
+    @if (currentDoc() === 'privacy') {
+      <div class="lg-doc">
+        <h1>Politique de Confidentialité</h1>
+        <p class="lg-last-updated">Dernière mise à jour : Août 2026</p>
+
+        <h2>1. Collecte des données de géolocalisation</h2>
+        <p>Flowdar est une application d'alerte en temps réel. Pour fonctionner, l'Application requiert l'accès à votre position GPS. Ces données de géolocalisation sont utilisées exclusivement pour :</p>
+        <ul>
+          <li>Vous envoyer des notifications push si vous entrez dans une zone à risque.</li>
+          <li>Centrer la carte sur votre position.</li>
+          <li>Associer une coordonnée géographique à vos signalements.</li>
+        </ul>
+
+        <h2>2. Données personnelles collectées</h2>
+        <p>Lors de la création de votre compte, nous collectons :</p>
+        <ul>
+          <li>Votre adresse email ou numéro de téléphone (pour l'authentification).</li>
+          <li>Un pseudonyme ou prénom (pour l'affichage communautaire).</li>
+        </ul>
+
+        <h2>3. Anonymat et Signalements</h2>
+        <p>Les signalements que vous créez sont partagés avec la communauté. Cependant, votre position exacte en temps réel (hors du moment du signalement) n'est <strong>jamais partagée</strong> avec les autres utilisateurs.</p>
+
+        <h2>4. Durée de conservation</h2>
+        <p>Les signalements d'inondation sont conservés de manière indéfinie à des fins d'analyse statistique de l'impact des pluies à Douala, mais sont dissociés de votre identifiant personnel après 12 mois.</p>
+
+        <h2>5. Sécurité</h2>
+        <p>Vos données sont protégées par des protocoles de chiffrement standards de l'industrie (HTTPS/TLS) lors de leur transmission entre votre application et nos serveurs.</p>
+
+        <h2>6. Vos droits</h2>
+        <p>Conformément à la réglementation applicable au Cameroun, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Vous pouvez exercer ce droit en supprimant votre compte directement depuis l'Application ou en nous contactant à privacy&#64;flowdar.cm.</p>
+      </div>
+    }
+  </main>
+</div>

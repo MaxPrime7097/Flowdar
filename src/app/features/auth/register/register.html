@@ -44,27 +44,15 @@
   </div>
 
   <div>
-    <label class="text-label mb-1 block uppercase text-text-secondary">Quartier de residence</label>
-    <div class="relative">
-      <app-icon
-        nom="localisation"
-        [taille]="18"
-        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
-      />
-      <select
-        formControlName="quartierDomicile"
-        aria-label="Quartier de residence"
-        class="w-full appearance-none rounded-button border border-border py-2.5 pl-10 pr-3 text-[15px]"
-      >
-        <option value="" disabled>Choisir un quartier</option>
-        @for (zone of zones(); track zone.id) {
-          <option [value]="zone.nom_quartier">{{ zone.nom_quartier }}</option>
-        }
-      </select>
-    </div>
+    <label class="text-label mb-1 block uppercase text-text-secondary">Quartier de résidence</label>
+    <app-select-custom
+      [options]="zonesOptions"
+      placeholder="Choisir un quartier"
+      [(valeur)]="quartierSelectionne"
+    />
   </div>
 
-  <button type="submit" [disabled]="enCours()" class="btn-primary w-full">Creer mon compte</button>
+  <button type="submit" [disabled]="enCours()" class="btn-primary w-full">Créer mon compte</button>
 
   <div class="flex items-center gap-3 py-1">
     <div class="h-px flex-1 bg-border"></div>

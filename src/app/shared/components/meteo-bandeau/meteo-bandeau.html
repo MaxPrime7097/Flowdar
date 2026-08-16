@@ -1,14 +1,24 @@
 @if (horsLigne()) {
-  <div class="bg-primary px-4 py-2 text-center text-[13px] font-medium text-white">
-    Donnees hors ligne — derniere mise a jour {{ derniereMaj() }}
+  <div class="flex items-center gap-2 rounded-full bg-text-primary/80 px-4 py-2 text-[13px] font-medium text-white shadow backdrop-blur-md">
+    <app-icon nom="nuage" [taille]="16" />
+    <span>Hors ligne · {{ derniereMaj() }}</span>
   </div>
 } @else if (pluieMmH() !== null) {
   <div
-    class="inline-flex h-12 items-center gap-2 rounded-full border border-border/60 bg-surface/90 px-4 shadow-sm backdrop-blur-md"
+    class="inline-flex h-12 items-center gap-2.5 rounded-full px-4 shadow-md backdrop-blur-md"
+    [class]="(pluieMmH() ?? 0) >= 20
+      ? 'bg-primary text-white'
+      : (pluieMmH() ?? 0) >= 3
+        ? 'bg-primary-light text-primary border border-primary/20'
+        : 'bg-surface/90 text-text-primary border border-border/60'"
   >
-    <app-icon nom="nuage" [taille]="18" class="text-primary" />
-    <span class="text-title text-text-primary">{{ pluieMmH() }}mm/h</span>
-    <span class="h-4 w-px bg-border"></span>
-    <span class="text-label text-text-secondary">{{ nomQuartier() }}</span>
+    <app-icon
+      [nom]="(pluieMmH() ?? 0) >= 20 ? 'orage' : (pluieMmH() ?? 0) >= 3 ? 'pluie' : 'nuage'"
+      [taille]="20"
+    />
+    <div class="flex flex-col leading-none">
+      <span class="text-[15px] font-bold">{{ pluieMmH() }}<span class="text-[11px] font-medium ml-0.5">mm/h</span></span>
+      <span class="text-[11px] opacity-70">{{ nomQuartier() }}</span>
+    </div>
   </div>
 }

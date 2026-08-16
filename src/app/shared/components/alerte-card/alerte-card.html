@@ -13,21 +13,21 @@
           </span>
         </div>
         <div class="grid grid-cols-2 gap-y-1 text-[13px] text-text-secondary">
-          <span class="flex items-center gap-1">
-            <app-icon nom="info" [taille]="14" />
+          <span class="flex items-center gap-1" [class]="couleurSource()">
+            <app-icon [nom]="iconeSource()" [taille]="14" />
             {{ labelSource() }}
           </span>
           <span class="flex items-center gap-1">
             <app-icon nom="utilisateurs" [taille]="14" />
-            {{ alerte().nb_confirmations }} confirmation(s)
+            {{ alerte().nb_confirmations }}
           </span>
         </div>
       </div>
       <div class="shrink-0 text-right">
-        <p class="text-label text-text-muted">SCORE</p>
         <p class="text-headline font-extrabold leading-none" [class]="couleurScore()">
-          {{ alerte().score }}
+          {{ alerte().score }}<span class="text-[11px] font-medium">/100</span>
         </p>
+        <p class="text-label text-text-muted">RISQUE</p>
       </div>
     </div>
   </div>

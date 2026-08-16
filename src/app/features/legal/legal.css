@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700&family=Roboto:wght@400;500&display=swap');
+
+:host {
+  display: block;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #F7F9FC;
+  font-family: 'Roboto', sans-serif;
+  color: #0F172A;
+}
+
+.lg-nav {
+  height: 68px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 48px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.lg-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #2257B3;
+  text-decoration: none;
+}
+
+.lg-nav__back {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.lg-nav__back:hover {
+  color: #2257B3;
+}
+
+.lg-layout {
+  display: flex;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px clamp(20px, 4vw, 48px);
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.lg-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 108px;
+}
+.lg-sidebar__title {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0F172A;
+  margin-bottom: 20px;
+  padding-left: 16px;
+}
+.lg-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lg-sidebar__link {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.lg-sidebar__link:hover {
+  background: rgba(34,87,179,0.05);
+  color: #2257B3;
+}
+.lg-sidebar__link--active {
+  background: #2257B3;
+  color: #FFFFFF;
+}
+.lg-sidebar__link--active:hover {
+  background: #2257B3;
+  color: #FFFFFF;
+}
+
+.lg-content {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 48px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 12px 40px rgba(34,87,179,0.04);
+}
+
+.lg-doc h1 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.lg-last-updated {
+  font-size: 0.85rem;
+  color: #94A3B8;
+  margin-bottom: 40px;
+}
+
+.lg-doc h2 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 40px 0 16px;
+}
+
+.lg-doc p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.lg-doc ul {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+.lg-doc li {
+  margin-bottom: 8px;
+}
+
+.lg-doc a {
+  color: #2257B3;
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .lg-layout {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px clamp(16px, 4vw, 24px);
+  }
+  .lg-sidebar {
+    width: 100%;
+    position: static;
+  }
+  .lg-sidebar__list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .lg-sidebar__link {
+    white-space: nowrap;
+  }
+  .lg-content {
+    padding: 32px 24px;
+  }
+  .lg-doc h1 {
+    font-size: 1.8rem;
+  }
+}

@@ -1,53 +1,91 @@
 @if (envoye()) {
-  <div class="flex flex-col items-center gap-3 py-6 text-center">
+  <div class="flex flex-col items-center gap-4 py-8 text-center">
     @if (enFileAttente()) {
-      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-warning-light text-warning">
-        <app-icon nom="horloge" [taille]="26" />
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-warning-light">
+        <app-icon nom="horloge" [taille]="32" class="text-warning" />
       </span>
-      <p class="font-display font-semibold">Pas de connexion : signalement enregistre sur cet appareil.</p>
-      <p class="text-[13px] text-text-secondary">Il sera envoye automatiquement des que la connexion revient.</p>
+      <div class="space-y-1">
+        <p class="font-display text-[17px] font-bold">Signalement mis en attente</p>
+        <p class="text-[13px] text-text-secondary">Il sera envoyé automatiquement dès que la connexion revient.</p>
+      </div>
     } @else {
-      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-success-light text-success">
-        <app-icon nom="check" [taille]="26" />
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-success-light">
+        <app-icon nom="check" [taille]="32" class="text-success" />
       </span>
-      <p class="font-display font-semibold">Signalement recu, en cours de validation par la communaute.</p>
-      @if (modeZone() === 'inconnue') {
-        <p class="text-[13px] text-text-secondary">Si 5 citoyens confirment, cette zone apparaitra sur la carte.</p>
-      }
+      <div class="space-y-1">
+        <p class="font-display text-[17px] font-bold">Signalement envoyé !</p>
+        <p class="text-[13px] text-text-secondary">En cours de validation par la communauté.</p>
+        @if (modeZone() === 'inconnue') {
+          <p class="text-[13px] text-text-muted">5 confirmations suffisent pour l'ajouter à la carte.</p>
+        }
+      </div>
     }
-    <button type="button" (click)="retourCarte.emit()" class="btn-primary px-4">Retour a la carte</button>
+    <button type="button" (click)="retourCarte.emit()" class="btn-primary mt-2 px-8">
+      Retour à la carte
+    </button>
+    <button
+      type="button"
+      (click)="sosOuvert.set(true)"
+      class="flex items-center gap-2 rounded-full border-2 border-danger/30 bg-danger-light px-5 py-2.5 text-[13px] font-bold text-danger"
+    >
+      <app-icon nom="sos" [taille]="16" />
+      Besoin d'aide urgente ?
+    </button>
   </div>
+
+  @if (sosOuvert()) {
+    <app-sos-sheet (fermer)="sosOuvert.set(false)" />
+  }
 } @else {
   <div class="space-y-4">
-    <div class="rounded-card border border-primary/10 bg-surface p-5 shadow-sm">
-      <div class="mb-4 flex items-center gap-4">
-        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white" [class]="couleurAvatar()">
-          <app-icon nom="warning" [taille]="22" />
+
+    <!-- Carte récap -->
+    <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+      <div class="flex items-center gap-4 p-5" [class]="couleurAvatar()">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20">
+          <app-icon [nom]="niveau() === 'dangereux' ? 'alerte-dangereux' : niveau() === 'moyen' ? 'alerte-moyen' : 'alerte-leger'" [taille]="24" class="text-white" />
         </span>
         <div>
-          <h2 class="text-title">Resume du rapport</h2>
-          <p class="text-[13px] text-text-secondary">Zone : {{ nomQuartier() }}</p>
+          <p class="text-[11px] font-bold uppercase tracking-wide text-white/70">Zone signalée</p>
+          <p class="text-[17px] font-bold text-white">{{ nomQuartier() }}</p>
         </div>
       </div>
-      <div class="flex items-center justify-between border-t border-border pt-4">
-        <span class="text-[15px] text-text-secondary">Gravite</span>
-        <app-badge-niveau [niveau]="niveau()" />
+      <div class="divide-y divide-border px-5">
+        <div class="flex items-center justify-between py-3">
+          <span class="text-[13px] text-text-secondary">Niveau de danger</span>
+          <app-badge-niveau [niveau]="niveau()" />
+        </div>
+        @if (description()) {
+          <div class="py-3">
+            <p class="text-[13px] text-text-secondary mb-1">Description</p>
+            <p class="text-[14px] whitespace-pre-line">{{ description() }}</p>
+          </div>
+        }
+        @if (apercuUrl()) {
+          <div class="py-3">
+            <p class="text-[13px] text-text-secondary mb-2">Photo</p>
+            <img [src]="apercuUrl()" alt="Photo du signalement" class="w-full rounded-xl object-cover max-h-48" />
+          </div>
+        }
       </div>
-      <p class="mt-4 whitespace-pre-line text-[15px]">{{ description() }}</p>
     </div>
 
     @if (modeZone() === 'inconnue') {
-      <div class="flex items-start gap-3 rounded-card bg-primary-light p-4">
-        <app-icon nom="info" [taille]="20" class="mt-0.5 shrink-0 text-primary" />
-        <p class="text-[13px] text-primary">
-          Si 5 citoyens confirment, cette zone apparaitra sur la carte en temps reel pour tous les utilisateurs.
-        </p>
+      <div class="flex items-start gap-3 rounded-2xl bg-primary-light p-4">
+        <app-icon nom="info" [taille]="18" class="mt-0.5 shrink-0 text-primary" />
+        <p class="text-[13px] text-primary">Si 5 citoyens confirment, cette zone apparaître sur la carte pour tous.</p>
       </div>
     }
 
     <button type="button" (click)="envoyer.emit()" [disabled]="envoiEnCours()" class="btn-primary w-full">
-      <app-icon nom="envoyer" [taille]="18" />
-      {{ envoiEnCours() ? 'Envoi...' : 'Envoyer le rapport' }}
+      @if (envoiEnCours()) {
+        <app-icon nom="horloge" [taille]="18" />
+        Envoi en cours...
+      } @else {
+        <app-icon nom="envoyer" [taille]="18" />
+        Envoyer le signalement
+      }
     </button>
+
   </div>
 }
