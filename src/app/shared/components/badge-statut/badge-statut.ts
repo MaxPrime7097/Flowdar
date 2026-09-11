@@ -1,21 +1,23 @@
 import { Component, computed, input } from '@angular/core';
 
-// Etat affiche : les 3 valeurs du champ statut, plus "preventif" quand l'alerte est de type
-// preventive (Frontend Specifications v3 liste le badge comme Actif/Resolu/Preventif).
-export type EtatBadgeStatut = 'actif' | 'resolu' | 'en_resolution' | 'preventif';
+// Etat affiche : les statuts v4 + "preventif" quand l'alerte est de type preventive
+// (Frontend Specifications v4, section 2.2)
+export type EtatBadgeStatut = 'actif' | 'resolu' | 'en_resolution' | 'preventif' | 'resolue';
 
 const LABEL: Record<EtatBadgeStatut, string> = {
-  actif: 'ACTIF',
-  resolu: 'RESOLU',
-  en_resolution: 'EN RESOLUTION',
-  preventif: 'PREVENTIF',
+  actif: 'EN COURS',
+  resolu: 'RÉSOLU',
+  en_resolution: 'EN RÉSOLUTION',
+  preventif: 'À VENIR',
+  resolue: 'DÉGAGÉE',
 };
 
 const CLASSES: Record<EtatBadgeStatut, string> = {
-  actif: 'bg-danger-light text-danger border-danger/30',
-  resolu: 'bg-[#F1F5F9] text-text-secondary border-border',
-  en_resolution: 'bg-warning-light text-warning border-warning/30',
-  preventif: 'bg-primary-light text-primary border-primary/30',
+  actif: 'bg-red-100 text-red-700 border-red-300',
+  resolu: 'bg-slate-100 text-slate-600 border-slate-300',
+  en_resolution: 'bg-orange-100 text-orange-700 border-orange-300',
+  preventif: 'bg-blue-100 text-blue-700 border-blue-300',
+  resolue: 'bg-slate-100 text-slate-600 border-slate-300',
 };
 
 @Component({

@@ -13,5 +13,5 @@ export const noAuthGuard: CanActivateFn = () => {
   }
   const authService = inject(AuthService);
   const router = inject(Router);
-  return authService.estConnecte() ? router.parseUrl('/') : true;
+  return authService.estConnecte() ? router.parseUrl('/carte') : true;
 };

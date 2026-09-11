@@ -1,1 +1,5 @@
-<router-outlet />
+@if (splashVisible()) {
+  <app-splash (pret)="splashVisible.set(false)" />
+} @else {
+  <router-outlet />
+}

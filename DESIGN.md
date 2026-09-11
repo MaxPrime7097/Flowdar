@@ -26,9 +26,13 @@ Ce qu'on veut ÉVITER absolument :
 ```css
 /* tokens à définir dans tailwind.config.js */
 
---color-primary:        #1A56DB;  /* Bleu confiance — actions principales, liens */
+--color-primary:        #2257B3;  /* Bleu confiance — actions principales, liens, navigation */
+--color-primary-hover:  #3D8CC2;  /* Bleu clair — survol/pression des éléments primaires */
 --color-primary-light:  #DBEAFE;  /* Bleu pale — fonds info, badges neutres */
---color-primary-dark:   #1E40AF;  /* Bleu foncé — hover, états actifs */
+
+--color-accent:         #FF9933;  /* Orange marque — FAB et CTA de mise en avant UNIQUEMENT.
+                                      Jamais pour un niveau de risque (voir règle d'or ci-dessous) */
+--color-accent-light:   #FFE8CC;  /* Orange pale — fond derrière un élément accent */
 
 --color-danger:         #DC2626;  /* Rouge — score > 85, alerte dangereuse */
 --color-danger-light:   #FEE2E2;  /* Rouge pale — fond badge danger */
@@ -43,7 +47,7 @@ Ce qu'on veut ÉVITER absolument :
 --color-success-light:  #DCFCE7;  /* Vert pale — fond badge résolu */
 
 --color-surface:        #FFFFFF;  /* Fond cards et écrans */
---color-background:     #F8FAFC;  /* Fond général de l'app */
+--color-background:     #F7F9FC;  /* Fond général de l'app */
 --color-border:         #E2E8F0;  /* Bordures, séparateurs */
 
 --color-text-primary:   #0F172A;  /* Texte principal — quasi noir */
@@ -51,34 +55,34 @@ Ce qu'on veut ÉVITER absolument :
 --color-text-muted:     #94A3B8;  /* Texte désactivé, placeholders */
 ```
 
-**Règle d'or :** les 4 couleurs d'alerte (danger/warning/caution/success) ne servent QU'à indiquer un niveau de risque. Jamais pour décorer.
+**Règle d'or :** les 4 couleurs d'alerte (danger/warning/caution/success) ne servent QU'à indiquer un niveau de risque. Jamais pour décorer. Ça inclut l'Accent (#FF9933) : bien qu'orange comme le warning, il ne doit **jamais** apparaître sur un badge, marqueur ou score — uniquement sur des CTA hors risque (FAB, boutons de mise en avant).
 
 ---
 
 ## 3. Typographie
 
 ```css
-/* Deux polices uniquement — pas d'Inter partout */
+/* Deux polices uniquement — pas de Roboto partout */
 
---font-display: 'DM Sans', sans-serif;
+--font-display: 'Exo 2', sans-serif;
 /* Titres, scores numériques, noms de quartiers
-   Caractère : géométrique, moderne, lisible en gras
-   Import : https://fonts.google.com/specimen/DM+Sans */
+   Caractère : géométrique, technique, lisible en gras
+   Import : https://fonts.google.com/specimen/Exo+2 */
 
---font-body: 'Inter', sans-serif;
+--font-body: 'Roboto', sans-serif;
 /* Corps de texte, labels, boutons, formulaires
    Caractère : neutre, dense, haute lisibilité
-   Import : https://fonts.google.com/specimen/Inter */
+   Import : https://fonts.google.com/specimen/Roboto */
 ```
 
 **Échelle typographique :**
 ```
-Score numérique (ex: "87")    → DM Sans, 48px, Bold, couleur selon niveau
-Nom de quartier (titre écran) → DM Sans, 24px, SemiBold, #0F172A
-Section header                → DM Sans, 18px, SemiBold, #0F172A
-Body / description            → Inter, 15px, Regular, #0F172A
-Label / badge texte           → Inter, 13px, Medium, selon couleur badge
-Timestamp / muted info        → Inter, 13px, Regular, #64748B
+Score numérique (ex: "87")    → Exo 2, 48px, Bold, couleur selon niveau
+Nom de quartier (titre écran) → Exo 2, 24px, SemiBold, #0F172A
+Section header                → Exo 2, 18px, SemiBold, #0F172A
+Body / description            → Roboto, 15px, Regular, #0F172A
+Label / badge texte           → Roboto, 13px, Medium, selon couleur badge
+Timestamp / muted info        → Roboto, 13px, Regular, #64748B
 ```
 
 ---
@@ -104,7 +108,7 @@ Top status bar clearance   : 44px (iPhone safe area)
 
 ### Score Badge (composant central de l'app)
 ```
-Affichage : chiffre large (48px DM Sans Bold) + "/100" petit (16px)
+Affichage : chiffre large (48px Exo 2 Bold) + "/100" petit (16px)
 Couleur du chiffre : selon niveau
   ≥ 85  → #DC2626 (danger)
   ≥ 60  → #D97706 (warning)
@@ -117,7 +121,7 @@ Taille  : 64x64px sur la carte, 96x96px sur l'écran détail
 ### Marqueur carte
 ```
 Forme    : cercle plein avec contour blanc 2px + ombre légère
-Contenu  : score numérique en blanc, DM Sans Bold 13px
+Contenu  : score numérique en blanc, Exo 2 Bold 13px
 Taille   : 40x40px
 Couleurs : fond selon niveau (danger/warning/caution)
 État hover/actif : scale(1.15) + ombre plus prononcée
@@ -132,7 +136,7 @@ Border-radius : 12px
 Ombre         : 0 1px 3px rgba(0,0,0,0.08)
 
 Contenu :
-  Ligne 1 : [Score Badge small] [Nom quartier, DM Sans 16px Bold] [Badge niveau]
+  Ligne 1 : [Score Badge small] [Nom quartier, Exo 2 16px Bold] [Badge niveau]
   Ligne 2 : [Source] · [il y a Xh] · [nb confirmations]
   Ligne 3 (si active) : boutons Confirmer / C'est passé
 ```
@@ -140,7 +144,7 @@ Contenu :
 ### Barre de décomposition du score (Écran 2)
 ```
 4 segments horizontaux colorés, proportionnels à leur contribution :
-  Météo      : #1A56DB  (bleu)
+  Météo      : #2257B3  (bleu)
   Historique : #7C3AED  (violet)
   Citoyens   : #D97706  (orange)
   Géographie : #16A34A  (vert)
@@ -154,17 +158,17 @@ Fond         : #FFFFFF avec border-top 1px #E2E8F0
 Hauteur      : 64px + safe area
 5 onglets    : Carte / Préventives / Itinéraire / Historique / Profil
 Icônes       : Lucide Icons, 22px
-État actif   : icône + label #1A56DB, fond pill #DBEAFE
+État actif   : icône + label #2257B3, fond pill #DBEAFE
 État inactif : icône + label #94A3B8
 ```
 
 ### Boutons
 ```
-Primaire  : fond #1A56DB, texte blanc, Inter 15px Medium, hauteur 48px
+Primaire  : fond #2257B3, survol/pression #3D8CC2, texte blanc, Roboto 15px Medium, hauteur 48px
 Secondaire: fond #F1F5F9, texte #0F172A, même taille
 Danger    : fond #DC2626, texte blanc (bouton "Signaler zone critique")
 Disabled  : opacity 0.4, pas de cursor-pointer
-FAB       : fond #1A56DB, icône blanche, 56x56px, ombre medium, bottom-right
+FAB       : fond #FF9933 (accent), icône blanche, 56x56px, ombre medium, bottom-right
 ```
 
 ---
@@ -204,7 +208,7 @@ pour Douala, Cameroun. Consulte DESIGN.md avant de coder quoi que ce soit.
 Ambiance : outil d'urgence professionnel sobre (référence : Linear + Citizen App).
 Pas de fond crème, pas de gradients décoratifs, pas d'illustrations.
 
-Polices : DM Sans (titres, scores) + Inter (corps). Pas d'autre police.
+Polices : Exo 2 (titres, scores) + Roboto (corps). Pas d'autre police.
 Couleurs : utilise UNIQUEMENT les tokens de DESIGN.md.
 Tailwind : classes utilitaires uniquement, pas de style inline.
 
@@ -226,7 +230,7 @@ Avant de te montrer un résultat, demande-lui explicitement de vérifier :
 - [ ] Y a-t-il des gradients ou ombres décoratives inutiles ?
 - [ ] La border-left colorée est-elle présente sur les cards ?
 - [ ] Les boutons font-ils minimum 48px de hauteur ?
-- [ ] La police DM Sans est-elle utilisée pour les titres et scores ?
+- [ ] La police Exo 2 est-elle utilisée pour les titres et scores ?
 
 ---
 

@@ -1,0 +1,15 @@
+<div class="space-y-2">
+  <div class="flex items-center justify-between">
+    <p class="text-[13px] font-semibold text-text-secondary">Signalements de degagement</p>
+    <span class="text-[13px] font-bold" [class]="isComplete() ? 'text-success' : 'text-warning'">
+      {{ confirmed() }}/{{ required() }}
+    </span>
+  </div>
+  <div class="h-2 rounded-full bg-slate-200 overflow-hidden">
+    <div
+      class="h-full transition-all duration-300"
+      [class]="isComplete() ? 'bg-success' : 'bg-warning'"
+      [style.width.%]="pourcentage()"
+    ></div>
+  </div>
+</div>

@@ -4,7 +4,7 @@
   <ul class="divide-y divide-gray-100">
     @for (confirmation of confirmations(); track confirmation.id) {
       <li class="flex items-center justify-between py-2 text-sm">
-        <span>{{ confirmation.type === 'confirme' ? "C'est encore la" : "C'est passe" }}</span>
+        <span>{{ confirmation.type === 'confirme' ? "C'est encore là" : "C'est passé" }}</span>
         <span class="text-gray-400">{{ confirmation.created_at | tempsEcoule }}</span>
       </li>
     }

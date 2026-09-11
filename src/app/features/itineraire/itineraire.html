@@ -21,7 +21,7 @@
         <input
           #destinationInput
           type="text"
-          placeholder="Ou allez-vous ?"
+          placeholder="Où allez-vous ?"
           aria-label="Destination"
           class="w-full border-none bg-transparent p-0 text-[15px] font-semibold focus:outline-none focus:ring-0"
         />
@@ -30,7 +30,7 @@
 
     <button type="button" (click)="calculerItineraire()" [disabled]="enCours()" class="btn-primary w-full">
       <app-icon nom="voiture" [taille]="18" />
-      {{ enCours() ? 'Calcul en cours...' : "Calculer l'itineraire securise" }}
+      {{ enCours() ? 'Calcul en cours...' : "Calculer l'itinéraire sécurisé" }}
     </button>
   </div>
 
@@ -44,10 +44,10 @@
             <div class="flex items-start gap-3 rounded-card border-2 border-danger bg-surface/95 p-3 shadow-lg backdrop-blur-md">
               <app-icon nom="danger" [taille]="20" class="mt-0.5 shrink-0 text-danger" />
               <div>
-                <p class="text-[14px] font-bold text-danger">Attention — trajet a risque</p>
+                <p class="text-[14px] font-bold text-danger">Attention, trajet à risque</p>
                 <p class="text-[13px] text-text-secondary">
-                  Ce trajet passe pres de {{ libelleTraversees() }}. Aucun itineraire alternatif
-                  ne permet de l'eviter.
+                  Ce trajet passe près de {{ libelleTraversees() }}. Aucun itinéraire alternatif
+                  ne permet de l'éviter.
                 </p>
               </div>
             </div>
@@ -56,8 +56,8 @@
             <div class="flex items-start gap-3 rounded-card border border-primary/30 bg-surface/95 p-3 shadow-lg backdrop-blur-md">
               <app-icon nom="info" [taille]="20" class="mt-0.5 shrink-0 text-primary" />
               <div>
-                <p class="text-[14px] font-semibold">Itineraire modifie</p>
-                <p class="text-[13px] text-text-secondary">Evite {{ libelleEvitees() }}.</p>
+                <p class="text-[14px] font-semibold">Itinéraire modifié</p>
+                <p class="text-[13px] text-text-secondary">Évite {{ libelleEvitees() }}.</p>
               </div>
             </div>
           }
@@ -65,8 +65,8 @@
             <div class="flex items-start gap-3 rounded-card border border-success/20 bg-surface/95 p-3 shadow-lg backdrop-blur-md">
               <app-icon nom="check" [taille]="20" class="mt-0.5 shrink-0 text-success" />
               <div>
-                <p class="text-[14px] font-semibold">Itineraire praticable</p>
-                <p class="text-[13px] text-text-secondary">Aucune zone alertee sur le trajet.</p>
+                <p class="text-[14px] font-semibold">Itinéraire praticable</p>
+                <p class="text-[13px] text-text-secondary">Aucune zone alertée sur le trajet.</p>
               </div>
             </div>
           }

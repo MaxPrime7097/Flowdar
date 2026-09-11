@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { Icon } from '../../shared/components/icon/icon';
 import { Login } from './login/login';
 import { Register } from './register/register';
 
@@ -8,7 +8,7 @@ import { Register } from './register/register';
 // alignee sur la maquette Stitch connexion_flowdar.
 @Component({
   selector: 'app-auth',
-  imports: [Login, Register, Icon],
+  imports: [Login, Register, RouterLink],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })

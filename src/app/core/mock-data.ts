@@ -30,23 +30,30 @@ export const MOCK_ALERTES: Alerte[] = [
   {
     id: 'alerte-1', type: 'active', source: 'citoyen', zone_id: 'zone-ndokotti',
     score: 87, niveau: 'dangereux', heure_debut: hoursAgo(2), heure_prevue: null,
-    nb_confirmations: 6, statut: 'actif', photo_url: null, firestore_id: 'alerte-1',
+    nb_confirmations: 6, nb_resolutions: 0, statut: 'actif', photo_url: null, firestore_id: 'alerte-1',
     score_detail: { meteo: 32, historique: 18, citoyens: 14, geographie: 7 },
     nom_quartier: 'Ndokotti', lat: 4.0511, lng: 9.7679,
   },
   {
     id: 'alerte-2', type: 'active', source: 'auto', zone_id: 'zone-ndog-bong',
     score: 68, niveau: 'moyen', heure_debut: hoursAgo(1), heure_prevue: null,
-    nb_confirmations: 3, statut: 'actif', photo_url: null, firestore_id: 'alerte-2',
+    nb_confirmations: 3, nb_resolutions: 0, statut: 'actif', photo_url: null, firestore_id: 'alerte-2',
     score_detail: { meteo: 28, historique: 20, citoyens: 12, geographie: 8 },
     nom_quartier: 'Ndog-Bong', lat: 4.0400, lng: 9.7100,
   },
   {
     id: 'alerte-3', type: 'preventive', source: 'auto', zone_id: 'zone-logpom',
     score: 42, niveau: 'leger', heure_debut: hoursAgo(0.2), heure_prevue: hoursFromNow(3),
-    nb_confirmations: 0, statut: 'actif', photo_url: null, firestore_id: 'alerte-3',
+    nb_confirmations: 0, nb_resolutions: 0, statut: 'actif', photo_url: null, firestore_id: 'alerte-3',
     score_detail: { meteo: 20, historique: 12, citoyens: 6, geographie: 4 },
     nom_quartier: 'Logpom', lat: 4.0950, lng: 9.7200,
+  },
+  {
+    id: 'alerte-4', type: 'active', source: 'auto', zone_id: 'zone-ndokotti',
+    score: 61, niveau: 'moyen', heure_debut: hoursAgo(5), heure_prevue: null,
+    nb_confirmations: 2, nb_resolutions: 0, statut: 'resolu', photo_url: null, firestore_id: 'alerte-4',
+    score_detail: { meteo: 25, historique: 16, citoyens: 12, geographie: 8 },
+    nom_quartier: 'Ndokotti', lat: 4.0511, lng: 9.7679,
   },
 ];
 

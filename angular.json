@@ -23,9 +23,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
+              "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles.css"]
+            "styles": ["src/styles.css"],
+            "serviceWorker": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -37,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "25kB",
+                  "maximumError": "50kB"
                 }
               ],
               "outputHashing": "all"

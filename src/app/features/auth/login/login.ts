@@ -36,7 +36,7 @@ export class Login {
     this.enCours.set(true);
     const { email, password } = this.form.getRawValue();
     this.authService.connexionEmail(email, password).then(
-      () => this.router.navigateByUrl('/'),
+      () => this.router.navigateByUrl('/carte'),
       () => {
         this.erreur.set('Email ou mot de passe incorrect.');
         this.enCours.set(false);
@@ -47,7 +47,7 @@ export class Login {
   connexionGoogle() {
     this.erreur.set(null);
     this.authService.connexionGoogle().then(
-      () => this.router.navigateByUrl('/'),
+      () => this.router.navigateByUrl('/carte'),
       () => this.erreur.set('Connexion Google echouee.'),
     );
   }

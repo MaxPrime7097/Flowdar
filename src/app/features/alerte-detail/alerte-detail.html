@@ -8,46 +8,62 @@
     <app-skeleton [hauteur]="180" />
     <app-skeleton [hauteur]="140" />
   } @else if (alerte(); as alerte) {
-    <div class="flex flex-col items-center gap-2">
-      <app-score-badge [score]="alerte.score" [niveau]="alerte.niveau" taille="detail" />
-      @if (etatBadge(); as etat) {
-        <app-badge-statut [etat]="etat" />
-      }
-      <p class="text-[15px] text-text-secondary">{{ labelSource() }}</p>
-      <p class="flex items-center gap-1 text-[13px] text-text-muted">
-        <app-icon nom="horloge" [taille]="14" />
-        {{ alerte.heure_debut | tempsEcoule }}
-      </p>
+    <div class="space-y-3">
+      <app-source-badge [source]="alerte.source" />
+
+      <div class="flex mt-2 flex-col items-center gap-1">
+        @if (etatBadge(); as etat) {
+          <app-badge-statut [etat]="etat" />
+        }
+        <p class="flex mt-1 items-center gap-1 text-[13px] text-text-secondary">
+          <app-icon nom="horloge" [taille]="14" />
+          {{ alerte.heure_debut | tempsEcoule }}
+        </p>
+      </div>
     </div>
 
+    <!-- Bloc 3: Niveau de risque avec jauge (v4) -->
+    <div class="rounded-card border border-border bg-surface p-4">
+      <p class="mb-3 text-xs uppercase text-text-muted">Niveau de risque</p>
+      <app-risk-gauge [score]="alerte.score" />
+      
+      @if (alerte.score_detail) {
+        <div class="mt-4 border-t border-border pt-4">
+          <button type="button" class="text-[13px] font-semibold text-primary hover:underline">
+            Voir le detail
+          </button>
+          <div class="mt-3 space-y-2 text-[12px]">
+            <app-score-breakdown [detail]="alerte.score_detail" />
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Bloc 4: Signalements citoyens (séparé du score) -->
+    <div class="rounded-card border border-border bg-surface p-4">
+      <app-citizen-count [count]="alerte.nb_confirmations" type="confirmation" />
+      
+      @if (alerte.statut === 'en_resolution') {
+        <div class="mt-3 border-t border-border pt-3">
+          <app-resolution-tracker [confirmed]="alerte.nb_resolutions || 0" />
+        </div>
+      }
+    </div>
+
+    <!-- Mini-carte -->
     <div class="relative h-40 overflow-hidden rounded-card border border-border">
       <div #miniMapContainer class="h-full w-full"></div>
-      <span class="text-label absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 shadow">
-        <app-icon nom="utilisateurs" [taille]="14" />
-        {{ alerte.nb_confirmations }} confirmations
-      </span>
     </div>
 
-    @if (alerte.score_detail) {
-      <div class="rounded-card border border-border bg-surface p-4">
-        <h2 class="text-label mb-3 uppercase text-text-secondary">Analyse du risque</h2>
-        <app-score-breakdown [detail]="alerte.score_detail" />
-      </div>
-    }
-
-    <p class="flex items-center gap-2 text-[15px]">
-      <app-icon nom="check" [taille]="18" class="text-primary" />
-      <strong>{{ alerte.nb_confirmations }}</strong> citoyens ont confirme ce danger
-    </p>
-
+    <!-- Boutons d'action -->
     <div class="flex flex-col gap-3">
       <button type="button" (click)="confirmer()" class="btn-primary">
-        <app-icon nom="check" [taille]="18" />
-        Toujours inonde
+        <app-icon nom="inonde" [taille]="18" />
+        Confirmer - c'est encore la
       </button>
       <button type="button" (click)="cestPasse()" class="btn-secondary">
         <app-icon nom="check" [taille]="18" />
-        Zone degagee
+        C'est passe
       </button>
       <button type="button" (click)="sosOuvert.set(true)" class="btn-danger">
         <app-icon nom="sos" [taille]="18" />
@@ -55,6 +71,7 @@
       </button>
     </div>
 
+    <!-- Timeline des confirmations -->
     <div>
       <h2 class="text-title mb-2">{{ alerte.nb_confirmations }} confirmation(s)</h2>
       <app-confirmation-list [confirmations]="confirmations()" />
@@ -67,3 +84,4 @@
 @if (sosOuvert()) {
   <app-sos-sheet (fermer)="sosOuvert.set(false)" />
 }
+

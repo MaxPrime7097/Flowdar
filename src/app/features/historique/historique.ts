@@ -9,12 +9,11 @@ import { EmptyState } from '../../shared/components/empty-state/empty-state';
 import { Icon } from '../../shared/components/icon/icon';
 import { Skeleton } from '../../shared/components/skeleton/skeleton';
 import { TopAppBar } from '../../shared/components/top-app-bar/top-app-bar';
+import { SelectCustom, SelectOption } from '../../shared/components/select-custom/select-custom';
 
-// Ecran 6 - Historique par quartier (Frontend Specifications v3, section 4). Carte-resume +
-// liste alignees sur la maquette Stitch historique_des_alertes.
 @Component({
   selector: 'app-historique',
-  imports: [Navbar, AlerteCard, EmptyState, Skeleton, TopAppBar, Icon],
+  imports: [Navbar, AlerteCard, EmptyState, Skeleton, TopAppBar, Icon, SelectCustom],
   templateUrl: './historique.html',
   styleUrl: './historique.css',
 })
@@ -27,11 +26,21 @@ export class Historique {
   alertesPassees = signal<Alerte[]>([]);
   chargement = signal(true);
 
+  zonesOptions = computed<SelectOption[]>(() =>
+    this.zones().map((z) => ({ valeur: z.nom_quartier, label: z.nom_quartier }))
+  );
+
+  get quartierValue(): string | null {
+    return this.quartierSelectionne();
+  }
+
+  set quartierValue(val: string | null) {
+    if (val) this.selectionnerQuartier(val);
+  }
+
   scoreMoyen = computed(() => {
     const alertes = this.alertesPassees();
-    if (alertes.length === 0) {
-      return 0;
-    }
+    if (alertes.length === 0) return 0;
     return Math.round(alertes.reduce((somme, a) => somme + a.score, 0) / alertes.length);
   });
 

@@ -38,7 +38,7 @@ function distanceMetres(a: { lat: number; lng: number }, b: { lat: number; lng: 
 }
 
 // Ecran 1 - Carte principale (Frontend Specifications v3, section 4 ; barre de recherche
-// et toast de risque proactif ajoutes pour matcher la maquette Stitch flowdar_carte_en_temps_r_el)
+// et toast de risque proactif ajoutés pour matcher la maquette Stitch flowdar_carte_en_temps_r_el)
 @Component({
   selector: 'app-carte',
   imports: [RouterLink, Navbar, MeteoBandeau, Icon, Skeleton, CarteMarqueur, CarteBottomsheet],
@@ -67,7 +67,7 @@ export class Carte implements AfterViewInit, OnDestroy {
   meteoQuartierProche = signal<{ nom: string; pluieMmH: number } | null>(null);
   toastFerme = signal(false);
 
-  // Toast proactif "Risque eleve detecte" (maquette Stitch) : l'alerte la plus severe en cours
+  // Toast proactif "Risque élevé détecté" (maquette Stitch) : l'alerte la plus sévère en cours
   alerteCritique = computed(() => {
     if (this.toastFerme()) {
       return null;
@@ -107,8 +107,8 @@ export class Carte implements AfterViewInit, OnDestroy {
     ]).subscribe(([alertes, zones, scores, enLigne]) => {
       const alertesEnrichies = alertes.map((alerte) => {
         const zone = zones.find((z) => z.id === alerte.zone_id);
-        // GET /api/scores fait autorite sur le score affiche sur le marqueur : il est
-        // recalcule plus souvent que le document d'alerte (checklist v3, section 9 item 6).
+        // GET /api/scores fait autorité sur le score affiché sur le marqueur : il est
+        // recalculé plus souvent que le document d'alerte (checklist v3, section 9 item 6).
         const scoreActuel = scores.find((s) => s.zone_id === alerte.zone_id);
         return {
           ...alerte,
@@ -150,7 +150,7 @@ export class Carte implements AfterViewInit, OnDestroy {
             distanceMetres(position, zone) < distanceMetres(position, plusProche) ? zone : plusProche,
           );
         } catch {
-          // Geolocalisation refusee ou indisponible : on garde le premier quartier par defaut.
+          // Géolocalisation refusée ou indisponible : on garde le premier quartier par défaut.
         }
         const meteo = meteos.find((m) => m.zone_id === quartierRef.id);
         if (meteo) {

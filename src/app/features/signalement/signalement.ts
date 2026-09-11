@@ -66,7 +66,7 @@ export class Signalement {
 
   form = this.fb.nonNullable.group({
     zone: this.fb.nonNullable.group({
-      modeZone: this.fb.nonNullable.control<'connue' | 'inconnue'>('connue'),
+      modeZone: this.fb.nonNullable.control<'connue' | 'inconnue'>('inconnue'),
       zoneId: this.fb.control<string | null>(null),
       lat: this.fb.control<number | null>(null),
       lng: this.fb.control<number | null>(null),
@@ -152,6 +152,6 @@ export class Signalement {
   }
 
   retourCarte() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/carte');
   }
 }

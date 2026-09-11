@@ -6,15 +6,15 @@ import { Icon, NomIcone } from '../icon/icon';
 // Badge texte + icone Leger/Moyen/Dangereux (DESIGN.md section 7 : jamais la couleur seule -
 // icone + texte + couleur pour rester distinguable en vision daltonienne).
 const LABEL_PAR_NIVEAU: Record<NiveauAlerte, string> = {
-  leger: 'LEGER',
+  leger: 'LÉGER',
   moyen: 'MOYEN',
   dangereux: 'DANGEREUX',
 };
 
 const ICONE_PAR_NIVEAU: Record<NiveauAlerte, NomIcone> = {
-  leger: 'caution',
-  moyen: 'warning',
-  dangereux: 'danger',
+  leger: 'alerte-leger',
+  moyen: 'alerte-moyen',
+  dangereux: 'alerte-dangereux',
 };
 
 const CLASSES_PAR_NIVEAU: Record<NiveauAlerte, string> = {

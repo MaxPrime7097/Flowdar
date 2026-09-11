@@ -23,7 +23,7 @@ export class ScoreBreakdown {
   // Couleurs exactes DESIGN.md section 5 "Barre de decomposition du score"
   segments = computed<Segment[]>(() => [
     { label: 'Meteo', valeur: this.detail().meteo, max: 40, couleur: 'bg-primary' },
-    { label: 'Historique', valeur: this.detail().historique, max: 30, couleur: 'bg-[#7C3AED]' },
+    { label: 'Historique', valeur: this.detail().historique, max: 30, couleur: 'bg-accent' },
     { label: 'Citoyens', valeur: this.detail().citoyens, max: 20, couleur: 'bg-warning' },
     { label: 'Geographie', valeur: this.detail().geographie, max: 10, couleur: 'bg-success' },
   ]);

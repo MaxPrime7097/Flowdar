@@ -1,37 +1,30 @@
-<app-top-app-bar titre="Signaler" />
+<app-top-app-bar titre="Signaler une zone" />
 
-<div class="mx-auto max-w-lg space-y-6 p-4 pt-20 pb-24">
+<div class="mx-auto max-w-lg p-4 pt-20 pb-24 space-y-6">
+
   @if (!envoye()) {
-    <nav class="relative mb-2 flex items-center justify-between px-6">
-      <div class="absolute left-10 right-10 top-4 h-0.5 -translate-y-1/2 bg-[#E2E8F0]"></div>
-      <div
-        class="absolute left-10 top-4 h-0.5 -translate-y-1/2 bg-primary transition-all duration-300"
-        [style.width.%]="(etapeActuelle() - 1) * 50"
-      ></div>
-      @for (etape of etapes; track etape.numero) {
-        <div class="relative flex flex-col items-center gap-1">
-          <div
-            class="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-bold transition-colors"
-            [class]="
-              etape.numero < etapeActuelle()
-                ? 'bg-success text-white'
-                : etape.numero === etapeActuelle()
-                  ? 'bg-primary text-white'
-                  : 'bg-[#E2E8F0] text-text-secondary'
-            "
+    <div class="relative">
+      <div class="flex">
+        @for (etape of etapes; track etape.numero) {
+          <div class="flex-1 relative overflow-hidden px-4 py-5"
+            [class]="etape.numero === etapeActuelle() ? 'opacity-100' : 'opacity-40'"
           >
-            @if (etape.numero < etapeActuelle()) {
-              <app-icon nom="check" [taille]="14" />
-            } @else {
-              {{ etape.numero }}
-            }
+            <span class="absolute right-2 top-0 font-display text-[64px] font-black leading-none select-none"
+              [class]="etape.numero === etapeActuelle() ? 'text-primary/10' : 'text-border'"
+            >{{ etape.numero }}</span>
+            <p class="text-[11px] font-bold uppercase tracking-widest"
+              [class]="etape.numero < etapeActuelle() ? 'text-success' : etape.numero === etapeActuelle() ? 'text-primary' : 'text-text-muted'"
+            >
+              @if (etape.numero < etapeActuelle()) { ✓ }
+              {{ etape.label }}
+            </p>
+            <div class="mt-2 h-0.5 rounded-full"
+              [class]="etape.numero < etapeActuelle() ? 'bg-success' : etape.numero === etapeActuelle() ? 'bg-primary' : 'bg-border'"
+            ></div>
           </div>
-          <span class="text-label" [class]="etape.numero <= etapeActuelle() ? 'text-primary' : 'text-text-secondary'">
-            {{ etape.label }}
-          </span>
-        </div>
-      }
-    </nav>
+        }
+      </div>
+    </div>
   }
 
   @switch (etapeActuelle()) {
@@ -57,6 +50,7 @@
         [niveau]="form.controls.zone.controls.niveau.value"
         [description]="form.controls.details.controls.description.value"
         [zones]="zones()"
+        [photo]="photoFile()"
         [envoiEnCours]="envoiEnCours()"
         [envoye]="envoye()"
         [enFileAttente]="enFileAttente()"
@@ -67,15 +61,22 @@
   }
 
   @if (!envoye()) {
-    <div class="flex justify-between pt-2">
+    <div class="flex justify-between gap-3 pt-5">
       @if (etapeActuelle() > 1) {
-        <button type="button" (click)="precedent()" class="btn-secondary px-4">Precedent</button>
+        <button type="button" (click)="precedent()" class="btn-secondary flex-1">
+          <app-icon nom="chevron-gauche" [taille]="16" />
+          Précédent
+        </button>
       } @else {
-        <span></span>
+        <span class="flex-1"></span>
       }
       @if (etapeActuelle() < 3) {
-        <button type="button" (click)="suivant()" class="btn-primary px-4">Suivant</button>
+        <button type="button" (click)="suivant()" class="btn-primary flex-1">
+          Suivant
+          <app-icon nom="chevron-droite" [taille]="16" />
+        </button>
       }
     </div>
   }
+
 </div>

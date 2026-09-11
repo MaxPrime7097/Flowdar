@@ -5,7 +5,7 @@ export type SourceZone = 'onacc' | 'historique_terrain' | 'signalement_citoyen';
 export type TypeAlerte = 'preventive' | 'active';
 export type SourceAlerte = 'auto' | 'citoyen' | 'onacc';
 export type NiveauAlerte = 'leger' | 'moyen' | 'dangereux';
-export type StatutAlerte = 'actif' | 'resolu' | 'en_resolution';
+export type StatutAlerte = 'actif' | 'resolu' | 'en_resolution' | 'resolue';
 export type TypeConfirmation = 'confirme' | 'resolu';
 
 export interface ZoneARisque {
@@ -38,6 +38,7 @@ export interface Alerte {
   heure_debut: string; // ISO timestamp
   heure_prevue: string | null;
   nb_confirmations: number;
+  nb_resolutions: number; // v4 - Validation croisee: 3 confirmations = resolution
   statut: StatutAlerte;
   photo_url: string | null;
   firestore_id: string;

@@ -1,0 +1,10 @@
+<div class="flex items-center gap-2 text-[14px] font-medium text-text-primary">
+  <app-icon nom="utilisateurs" [taille]="16" />
+  <span>
+    @if (type() === 'confirmation') {
+      {{ count() }} citoyen{{ count() > 1 ? 's' : '' }} confirme{{ count() > 1 ? 'nt' : '' }}
+    } @else {
+      {{ count() }} citoyen{{ count() > 1 ? 's' : '' }} signale{{ count() > 1 ? 'nt' : '' }} que c'est passe
+    }
+  </span>
+</div>
