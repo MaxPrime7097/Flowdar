@@ -1,0 +1,83 @@
+<div [formGroup]="group()" class="space-y-6">
+
+  <!-- Mode zone -->
+  <div>
+    <label class="text-label mb-2 block uppercase text-text-secondary">Type de localisation</label>
+    <div class="grid grid-cols-2 gap-3">
+      <label>
+        <input type="radio" formControlName="modeZone" value="inconnue" class="sr-only peer" />
+        <span class="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-border bg-surface p-4 text-center transition-all peer-checked:border-primary peer-checked:bg-primary-light">
+          <app-icon nom="cibler" [taille]="22" class="text-text-secondary" />
+          <span class="text-[13px] font-semibold">Ma position GPS</span>
+        </span>
+      </label>
+      <label>
+        <input type="radio" formControlName="modeZone" value="connue" class="sr-only peer" />
+        <span class="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-border bg-surface p-4 text-center transition-all peer-checked:border-primary peer-checked:bg-primary-light">
+          <app-icon nom="localisation" [taille]="22" class="text-text-secondary peer-checked:text-primary" />
+          <span class="text-[13px] font-semibold">Quartier connu</span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Sélecteur quartier ou GPS -->
+  @if (group().value.modeZone === 'inconnue') {
+    <div class="rounded-2xl border-2 border-dashed p-5 text-center transition-all"
+      [class]="positionPrete() ? 'border-success bg-success-light' : 'border-border bg-surface'"
+    >
+      @if (positionPrete()) {
+        <div class="flex flex-col items-center gap-2">
+          <app-icon nom="check" [taille]="28" class="text-success" />
+          <p class="text-[14px] font-semibold text-success">Position GPS enregistrée</p>
+        </div>
+      } @else {
+        <div class="flex flex-col items-center gap-3">
+          <app-icon nom="cibler" [taille]="28" class="text-text-muted" />
+          <p class="text-[13px] text-text-secondary">Votre position exacte sera utilisée pour localiser la zone</p>
+          <button
+            type="button"
+            (click)="demanderPosition.emit()"
+            class="btn-primary px-6"
+          >
+            <app-icon nom="cibler" [taille]="16" />
+            Utiliser ma position
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div>
+      <label class="text-label mb-2 block uppercase text-text-secondary">Quartier</label>
+      <app-select-custom
+        [options]="zonesOptions()"
+        placeholder="Choisir un quartier..."
+        [(valeur)]="zoneIdValue"
+      />
+    </div>
+  }
+
+  <!-- Niveau de danger -->
+  <div>
+    <label class="text-label mb-3 block uppercase text-text-secondary">Niveau de danger</label>
+    <div class="space-y-3">
+      @for (niveau of niveaux; track niveau.valeur) {
+        <label class="block cursor-pointer">
+          <input type="radio" formControlName="niveau" [value]="niveau.valeur" class="peer sr-only" />
+          <span class="flex items-center gap-4 rounded-2xl border-2 border-border bg-surface p-4 transition-all peer-checked:border-current peer-checked:shadow-md"
+            [class]="niveau.texte"
+          >
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" [class]="niveau.fondClair">
+              <app-icon [nom]="niveau.icone" [taille]="22" [class]="niveau.texte" />
+            </span>
+            <span class="flex-1">
+              <span class="block text-[15px] font-bold text-text-primary">{{ niveau.label }}</span>
+              <span class="block text-[13px] text-text-secondary">{{ niveau.description }}</span>
+            </span>
+          </span>
+        </label>
+      }
+    </div>
+  </div>
+
+</div>

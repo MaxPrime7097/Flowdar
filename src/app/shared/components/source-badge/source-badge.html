@@ -1,0 +1,9 @@
+<div
+  class="flex flex-col items-center justify-center gap-1 rounded-card border px-8 py-6 text-center shadow-lg"
+  [class]="config().couleur"
+>
+  <app-icon [nom]="config().icone" [taille]="42" />
+  <div class="space-y-0.5">
+    <p class="text-[18px] font-extrabold leading-tight">{{ config().label }}</p>
+  </div>
+</div>

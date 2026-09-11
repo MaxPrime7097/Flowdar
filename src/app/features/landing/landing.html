@@ -1,0 +1,438 @@
+<!-- ── NAV ── -->
+<nav [class.lp-nav--solid]="navSolid">
+  <a class="nav-logo" routerLink="/">
+    <img class="nav-logo-img" src="assets/logo.png" alt="Flowdar Logo" width="32" height="32" style="border-radius:8px;">
+    <span class="nav-logo-text">Flowdar</span>
+  </a>
+  <ul class="nav-links">
+    <li><a (click)="scrollTo('story', $event)" href="#story">Le concept</a></li>
+    <li><a (click)="scrollTo('how', $event)" href="#how">Comment ça marche</a></li>
+    <li><a (click)="scrollTo('demo', $event)" href="#demo">En action</a></li>
+    <li><a (click)="scrollTo('features', $event)" href="#features">Fonctionnalités</a></li>
+  </ul>
+  <a routerLink="/auth" class="nav-cta">Connexion</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" #heroRef>
+  <canvas #rippleCanvas id="ripple-canvas"></canvas>
+  <div #heroWaterRef id="hero-water"></div>
+
+  <div class="hero-grid">
+    <!-- Colonne gauche textuelle -->
+    <div class="hero-inner">
+      <h1 class="hero-title">
+        <div class="flex flex-col">
+          <span class="accent">Douala</span> 
+          <span class="accent2">sait enfin.</span>
+        </div>
+        <span class="line2">Avant que l'eau monte.</span>
+      </h1>
+      <p class="hero-sub">
+        Flowdar détecte et permet de signaler les zones inondées en temps réel, alerte les citoyens
+        et trace les itinéraires sûrs en quelque minutes.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/auth" class="btn-landing-primary">Créer un compte gratuit</a>
+        <a routerLink="/carte" class="btn-ghost">Explorer sans compte</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        Défiler
+      </div>
+    </div>
+
+    <!-- Colonne droite — Visuel & Cartes flottantes -->
+    <div class="hero-visual">
+      <div class="hero-img-frame">
+        <img class="hero-img" src="assets/landing-hero.png" alt="Habitante de Douala consultant Flowdar" loading="eager"/>
+        <div class="hero-img-overlay"></div>
+        <div class="hero-img-shimmer"></div>
+      </div>
+      <div class="hero-float float-alert">
+        <div class="float-indicator warn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="float-body">
+          <span class="float-title">Alerte · Bépanda</span>
+          <span class="float-meta">Score 67/100 · il y a 2 min</span>
+        </div>
+        <span class="float-badge warn">MOYEN</span>
+      </div>
+      <div class="hero-float float-safe">
+        <div class="float-indicator ok">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="float-body">
+          <span class="float-title">Itinéraire sûr trouvé</span>
+          <span class="float-meta">Via Rond-Point Express · 12 min</span>
+        </div>
+        <svg class="float-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section id="stats">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,100 720,40 T1440,50 L1440,0 Z" fill="rgba(34,87,179,0.12)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,80 720,30 T1440,35 L1440,0 Z" fill="#F7F9FC"/>
+    </svg>
+  </div>
+  <div class="stats-inner">
+    <p class="stats-label reveal">La réalité de Douala aujourd'hui</p>
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <span class="stat-num"><span class="unit">%</span>48</span>
+        <p class="stat-desc">de la ville exposée aux risques d'inondation</p>
+      </div>
+      <div class="stat-card reveal" style="transition-delay:.1s">
+        <span class="stat-num">1M<span class="unit">+</span></span>
+        <p class="stat-desc">de Camerounais affectés entre 2024 et 2025</p>
+      </div>
+      <div class="stat-card reveal" style="transition-delay:.2s">
+        <span class="stat-num">0</span>
+        <p class="stat-desc">application mobile citoyenne existante pour les inondations</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,95 720,45 T1440,50 L1440,0 Z" fill="rgba(61,140,194,0.15)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,75 720,35 T1440,35 L1440,0 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+  <div class="story-inner">
+    <p class="section-eyebrow reveal">Le quotidien à Douala</p>
+    <h2 class="section-title reveal">Marie rentre chez elle.<br><em>Pas de la façon habituelle.</em></h2>
+    <p class="section-sub reveal">Un vendredi soir à Makepe. La pluie vient de s'arrêter. Et sans Flowdar, Marie ne saurait pas encore.</p>
+    <div class="story-steps">
+      <div class="step-card reveal">
+        <div class="step-icon blue">
+          <app-icon nom="pluie" [taille]="26" />
+        </div>
+        <p class="step-who">Marie · 17h30</p>
+        <h3 class="step-title">Elle ouvre Flowdar</h3>
+        <p class="step-desc">La carte s'affiche en 3 secondes. Un marqueur rouge pulse sur la rue Joss, score 87/100. Inondé depuis 2h, 12 confirmations citoyennes.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.15s">
+        <div class="step-icon orange">
+          <app-icon nom="carte" [taille]="26" />
+        </div>
+        <p class="step-who">Marie · 17h31</p>
+        <h3 class="step-title">Elle saisit sa destination</h3>
+        <p class="step-desc">Flowdar calcule un itinéraire qui évite automatiquement Ndokotti et Bépanda. Le chemin alternatif ajoute 4 minutes. Pas 2 heures bloquée dans l'eau.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:.3s">
+        <div class="step-icon green">
+          <app-icon nom="check" [taille]="26" />
+        </div>
+        <p class="step-who">Marie · 18h02</p>
+        <h3 class="step-title">Elle confirme en passant</h3>
+        <p class="step-desc">En longeant Ndokotti, elle confirme d'un tap que la zone est encore inondée. 13 confirmations. Le voisin d'après sera aussi guidé.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,55 Q360,100 720,45 T1440,55 L1440,0 Z" fill="rgba(34,87,179,0.3)"/>
+      <path class="wave-path-front" d="M0,0 L0,40 Q360,85 720,40 T1440,40 L1440,0 Z" fill="#F7F9FC"/>
+    </svg>
+  </div>
+  <div class="how-inner">
+    <p class="section-eyebrow reveal">Technologie</p>
+    <h2 class="section-title reveal" style="color:white;">Trois couches.<br>Une seule certitude.</h2>
+    <p class="section-sub reveal" style="color:rgba(255,255,255,.5);">Flowdar croise des données météo par quartier, l'historique des inondations, et les signalements citoyens pour un score fiable, pas une estimation générique.</p>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">01</div>
+        <div class="how-icon">
+          <app-icon nom="satellite" [taille]="28" />
+        </div>
+        <h3 class="how-title">Détecte automatiquement</h3>
+        <p class="how-desc">OpenWeatherMap interrogé par coordonnées GPS pour chaque quartier. Pas une météo unique pour toute la ville, une mesure précise pour chaque zone.</p>
+      </div>
+      <div class="how-card reveal" style="transition-delay:.1s">
+        <div class="how-num">02</div>
+        <div class="how-icon">
+          <app-icon nom="utilisateurs" [taille]="28" />
+        </div>
+        <h3 class="how-title">Confirmé par les citoyens</h3>
+        <p class="how-desc">Les habitants valident ce que les données météo détectent. Un score de 0 à 100 combine météo, historique, signalements et géographie du terrain.</p>
+      </div>
+      <div class="how-card reveal" style="transition-delay:.2s">
+        <div class="how-num">03</div>
+        <div class="how-icon">
+          <app-icon nom="itineraire" [taille]="28" />
+        </div>
+        <h3 class="how-title">Guide en temps réel</h3>
+        <p class="how-desc">Google Maps recalcule l'itinéraire en évitant automatiquement les zones alertées. Mis à jour sans rechargement via Supabase Realtime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEMO ── -->
+<section id="demo">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,95 720,45 T1440,50 L1440,0 Z" fill="rgba(13,27,62,0.35)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,80 720,35 T1440,35 L1440,0 Z" fill="#0D1B3E"/>
+    </svg>
+  </div>
+  <div class="demo-inner">
+    <div class="demo-text">
+      <p class="section-eyebrow reveal">Flowdar en action</p>
+      <h2 class="section-title reveal">La carte qui<br><em>ne dort jamais.</em></h2>
+      <p class="section-sub reveal">Les alertes se mettent à jour en temps réel. Dès qu'une zone change, tous les utilisateurs le voient instantanément.</p>
+      <div class="alert-list reveal">
+        <div class="alert-item red">
+          <div class="alert-dot red"></div>
+          <div class="alert-info">
+            <div class="alert-name">Ndokotti</div>
+            <div class="alert-meta">Inondé · 12 confirmations · il y a 2h</div>
+          </div>
+          <div class="alert-score">87</div>
+        </div>
+        <div class="alert-item orange-alert">
+          <div class="alert-dot orange"></div>
+          <div class="alert-info">
+            <div class="alert-name">Bépanda</div>
+            <div class="alert-meta">Risque moyen · 5 confirmations · il y a 45min</div>
+          </div>
+          <div class="alert-score">64</div>
+        </div>
+        <div class="alert-item yellow">
+          <div class="alert-dot yellow"></div>
+          <div class="alert-info">
+            <div class="alert-name">Makepe</div>
+            <div class="alert-meta">Surveillance · 2 signalements · il y a 20min</div>
+          </div>
+          <div class="alert-score">38</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-mockup reveal">
+      <svg class="demo-map-svg" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fond eau / fleuve -->
+        <rect width="420" height="320" fill="#dce8f5"/>
+        <path d="M0 260 Q60 240 120 255 Q180 270 240 250 Q300 230 360 245 Q390 252 420 240 L420 320 L0 320 Z" fill="#b8d4ed" opacity=".7"/>
+
+        <!-- Blocs de quartiers -->
+        <rect x="20" y="30" width="70" height="50" rx="4" fill="#c8d8ee" opacity=".6"/>
+        <rect x="100" y="20" width="55" height="40" rx="4" fill="#c8d8ee" opacity=".5"/>
+        <rect x="165" y="30" width="80" height="55" rx="4" fill="#c8d8ee" opacity=".6"/>
+        <rect x="255" y="15" width="60" height="45" rx="4" fill="#c8d8ee" opacity=".5"/>
+        <rect x="325" y="25" width="75" height="50" rx="4" fill="#c8d8ee" opacity=".6"/>
+
+        <rect x="15" y="100" width="60" height="55" rx="4" fill="#c8d8ee" opacity=".55"/>
+        <rect x="85" y="90" width="75" height="60" rx="4" fill="#c8d8ee" opacity=".6"/>
+        <rect x="170" y="100" width="55" height="50" rx="4" fill="#c8d8ee" opacity=".5"/>
+        <rect x="235" y="85" width="80" height="65" rx="4" fill="#c8d8ee" opacity=".6"/>
+        <rect x="325" y="95" width="70" height="55" rx="4" fill="#c8d8ee" opacity=".55"/>
+
+        <rect x="20" y="175" width="65" height="50" rx="4" fill="#c8d8ee" opacity=".5"/>
+        <rect x="95" y="168" width="70" height="55" rx="4" fill="#c8d8ee" opacity=".6"/>
+        <rect x="175" y="175" width="60" height="48" rx="4" fill="#c8d8ee" opacity=".5"/>
+        <rect x="245" y="165" width="75" height="55" rx="4" fill="#c8d8ee" opacity=".55"/>
+        <rect x="330" y="170" width="65" height="50" rx="4" fill="#c8d8ee" opacity=".5"/>
+
+        <!-- Rues horizontales -->
+        <line x1="0" y1="88" x2="420" y2="88" stroke="white" stroke-width="5" opacity=".9"/>
+        <line x1="0" y1="163" x2="420" y2="163" stroke="white" stroke-width="5" opacity=".9"/>
+        <line x1="0" y1="232" x2="420" y2="232" stroke="white" stroke-width="3" opacity=".7"/>
+
+        <!-- Rues verticales -->
+        <line x1="80" y1="0" x2="80" y2="260" stroke="white" stroke-width="4" opacity=".9"/>
+        <line x1="160" y1="0" x2="160" y2="260" stroke="white" stroke-width="4" opacity=".9"/>
+        <line x1="240" y1="0" x2="240" y2="260" stroke="white" stroke-width="4" opacity=".9"/>
+        <line x1="325" y1="0" x2="325" y2="260" stroke="white" stroke-width="3" opacity=".7"/>
+
+        <!-- Zone inondée Ndokotti (rouge) -->
+        <rect x="85" y="90" width="75" height="60" rx="4" fill="#EF4444" opacity=".25"/>
+
+        <!-- Itinéraire barré (rouge) -->
+        <path d="M 200 280 Q 180 230 160 200 Q 140 170 120 130" stroke="#EF4444" stroke-width="3" fill="none" stroke-dasharray="6,4" opacity=".5" stroke-linecap="round"/>
+
+        <!-- Itinéraire sûr (bleu) -->
+        <path d="M 200 280 Q 220 240 240 210 Q 260 180 270 140 Q 275 120 260 100" stroke="#2257B3" stroke-width="3.5" fill="none" opacity=".85" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Points départ / arrivée -->
+        <circle cx="200" cy="280" r="5" fill="#2257B3" opacity=".7"/>
+        <circle cx="260" cy="100" r="5" fill="#2257B3" opacity=".7"/>
+      </svg>
+
+      <!-- Pins avec rings pulsants -->
+      <div class="map-pin p1">
+        <div class="pin-ring ring-red"></div>
+        <div class="pin-dot dot-red"></div>
+        <div class="pin-bubble">Ndokotti · <span [class]="scoreClass(87)">87</span></div>
+      </div>
+      <div class="map-pin p2">
+        <div class="pin-ring ring-orange"></div>
+        <div class="pin-dot dot-orange"></div>
+        <div class="pin-bubble">Bépanda · <span [class]="scoreClass(64)">64</span></div>
+      </div>
+      <div class="map-pin p3">
+        <div class="pin-ring ring-yellow"></div>
+        <div class="pin-dot dot-yellow"></div>
+        <div class="pin-bubble">Makepe · <span [class]="scoreClass(38)">38</span></div>
+      </div>
+      <div class="map-user"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section id="features" class="features-section">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,95 720,45 T1440,50 L1440,0 Z" fill="rgba(34,87,179,0.12)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,80 720,35 T1440,35 L1440,0 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+  <div class="features-inner">
+    <p class="section-eyebrow reveal">Fonctionnalités</p>
+    <h2 class="section-title reveal">Tout ce dont vous avez besoin.<br><em>Dans une seule app.</em></h2>
+    <p class="section-sub reveal">Flowdar centralise détection, navigation et signalement pour vous offrir une protection complète face aux inondations.</p>
+    <div class="features-grid">
+      @for (f of features; track f.titre) {
+        <div class="feature-card reveal">
+          <div class="feature-icon-wrap feat-{{ f.couleur }}">
+            <app-icon [nom]="f.icone" [taille]="24" />
+          </div>
+          <h3 class="feature-title">{{ f.titre }}</h3>
+          <p class="feature-desc">{{ f.desc }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials" class="testimonials-section hidden">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,95 720,40 T1440,50 L1440,0 Z" fill="rgba(34,87,179,0.12)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,75 720,30 T1440,35 L1440,0 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+  <div class="testimonials-inner">
+    <p class="section-eyebrow reveal">Témoignages</p>
+    <h2 class="section-title reveal">Douala parle.</h2>
+    <div class="testimonials-grid">
+      @for (t of testimonials; track t.name) {
+        <div class="testi-card reveal">
+          <div class="testi-quote-icon">“</div>
+          <p class="testi-quote">{{ t.quote }}</p>
+          <div class="testi-author">
+            <div class="testi-avatar">{{ t.avatar }}</div>
+            <div>
+              <div class="testi-name">{{ t.name }}</div>
+              <div class="testi-role">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section id="cta-final" class="lp-cta-final">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,55 Q360,100 720,45 T1440,55 L1440,0 Z" fill="rgba(255,255,255,0.25)"/>
+      <path class="wave-path-front" d="M0,0 L0,40 Q360,85 720,40 T1440,40 L1440,0 Z" fill="#F7F9FC"/>
+    </svg>
+  </div>
+  <div class="lp-cta-final__rings" aria-hidden="true">
+    <div class="cta-ring cta-ring--1"></div>
+    <div class="cta-ring cta-ring--2"></div>
+    <div class="cta-ring cta-ring--3"></div>
+    <div class="cta-ring cta-ring--4"></div>
+  </div>
+  <div class="lp-cta-final__inner">
+    <h2 class="lp-cta-final__title reveal">
+      La pluie ne nous<br/>
+      <span class="text-accent">surprends plus.</span>
+    </h2>
+    <p class="lp-cta-final__sub reveal">
+      Rejoignez les citoyens de Douala qui anticipent les inondations
+      et se déplacent en toute sécurité.
+    </p>
+    <div class="lp-cta-final__ctas reveal">
+      <a class="btn-landing-primary" routerLink="/auth">
+        Créer un compte gratuit
+      
+      </a>
+      <a class="btn-ghost-light" routerLink="/carte">
+        Explorer sans compte
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="lp-footer">
+  <div class="section-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-path-back" d="M0,0 L0,50 Q360,95 720,45 T1440,50 L1440,0 Z" fill="rgba(34,87,179,0.5)"/>
+      <path class="wave-path-front" d="M0,0 L0,35 Q360,80 720,35 T1440,35 L1440,0 Z" fill="#2257B3"/>
+    </svg>
+  </div>
+  <div class="lp-footer__inner">
+    <div class="lp-footer__brand">
+      <div class="lp-footer__logo">
+        <img src="assets/logo.png" alt="Flowdar" width="36" height="36" style="border-radius:10px;">
+        <span class="lp-footer__wordmark">Flowdar</span>
+      </div>
+      <p class="lp-footer__tagline">
+        Système citoyen de détection des inondations et de navigation sécurisée à Douala.
+      </p>
+      <p class="lp-footer__hackathon">
+        Développé dans le cadre du <strong>Angular Talent Lab 2026</strong>
+      </p>
+    </div>
+    <div class="lp-footer__cols">
+      <div class="lp-footer__col">
+        <h4 class="lp-footer__heading">Navigation</h4>
+        <ul class="lp-footer__links">
+          <li><a routerLink="/carte">Carte interactive</a></li>
+          <li><a routerLink="/auth">Connexion / Inscription</a></li>
+          <li><a routerLink="/guide-prevention">Guide de prévention</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer__col">
+        <h4 class="lp-footer__heading">Légal & Infos</h4>
+        <ul class="lp-footer__links">
+          <li><a routerLink="/legal/cgu">Conditions d'utilisation</a></li>
+          <li><a routerLink="/legal/confidentialite">Politique de confidentialité</a></li>
+          <li><a routerLink="/legal/mentions">Mentions légales</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="lp-footer__bottom">
+    <p>© 2026 Flowdar</p>
+    <div class="lp-footer__status">
+      Par Nlend Max
+    </div>
+  </div>
+</footer>
